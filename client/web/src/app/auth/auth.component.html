@@ -1,0 +1,53 @@
+<div class="container-fluid d-flex h-100">
+    <div class="row justify-content-center align-self-center">
+        <div class="col-lg-6">
+            <img src="assets/img/bg-01.png" class="img-fluid ml-5" alt="" srcset="">
+        </div>
+        <div class="col-lg-6">
+            <div class="valign float-right">
+                <mat-card class="example-card p-5 mr-5">
+                    <mat-card-header>
+                        <div class="mx-auto">
+                            <mat-card-title>Login</mat-card-title>
+                        </div>
+                    </mat-card-header>
+                    <form [formGroup]="authenticationForm" (ngSubmit)="onSubmit()">
+                        <mat-card-content>
+                            <mat-form-field appearance="legacy" class="w-100">
+                                <mat-label>Email</mat-label>
+                                <input type="email" matInput [formControlName]="'email'"
+                                    placeholder="Ex. pat@example.com">
+                                <mat-error
+                                    *ngIf="authenticationForm.get('email').hasError('email') && !authenticationForm.get('email').hasError('required')">
+                                    Please enter a valid email address
+                                </mat-error>
+                                <mat-error *ngIf="authenticationForm.get('email').hasError('required')">
+                                    Email is <strong>required</strong>
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field appearance="legacy" class="w-100">
+                                <mat-label>Password</mat-label>
+                                <input type="password" matInput [formControlName]="'password'"
+                                    placeholder="Ex. pat@example.com">
+                                <mat-error *ngIf="authenticationForm.get('password').hasError('required')">
+                                    Password is <strong>required</strong>
+                                </mat-error>
+                            </mat-form-field>
+                            <!-- <label class="mr-4">Login As: </label>
+                            <mat-radio-group [formControlName]="'role'">
+                                <mat-radio-button value="patient" class="mr-4">Patient</mat-radio-button>
+                                <mat-radio-button value="doctor"  class="mr-4" >Doctor</mat-radio-button>
+                            </mat-radio-group> -->
+                        </mat-card-content>
+                        <mat-card-actions>
+                            <button type="submit" mat-raised-button color="primary"
+                                [disabled]="authenticationForm.invalid">
+                                Login
+                            </button>
+                        </mat-card-actions>
+                    </form>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>
