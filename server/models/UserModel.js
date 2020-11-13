@@ -12,32 +12,24 @@ const userSchema = new Schema({
     type: String,
     required: [true, 'Name is required'],
   },
+  username: {
+    type: String,
+    required: [true, 'Please give a username'],
+  },
   email: {
     type: String,
-    required: [true, 'Email is required'],
-    unique: true,
     validate: {
       validator: validator.isEmail,
       message: 'This is not a valid email',
     },
     lowercase: true,
   },
-  nid: {
-    type: String,
-    required: [true, "NID is required for all kind of users"],
-    unique: true
-  },
   phone: {
     type: String,
   },
-  image: {
-    type: String,
-  },
-  dateOfBirth: {
-    type: Date,
-  },
-  designation: {
-    type: String
+  hospital: {
+    type: Schema.Types.ObjectId,
+    ref: 'Hospital',
   },
   password: {
     type: String,
@@ -53,8 +45,7 @@ const userSchema = new Schema({
   },
   role: {
     type: String,
-    enum: ['patient', 'doctor', 'pharmacy', 'super-admin'],
-    default: 'patient',
+    enum: ['admin', 'doctor', 'nurse', 'ward-monitor'],
   },
 });
 
@@ -72,7 +63,6 @@ userSchema.pre('save', async function (next) {
 userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   if (this.password_changed_at) {
     const timestamp = parseInt(this.password_changed_at.getTime() / 1000, 10);
-
     return JWTTimestamp < timestamp;
   }
 
