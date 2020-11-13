@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-
+import '../../utils/customLib.dart';
 class Types extends StatelessWidget {
   String route;
   List<String> types;

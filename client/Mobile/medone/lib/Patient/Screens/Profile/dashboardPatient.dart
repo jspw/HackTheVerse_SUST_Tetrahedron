@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import '../../../utils/customLib.dart';
 
 class DashboardPatient extends StatefulWidget {
   static const route = "/dashboard-patient";
@@ -13,6 +13,56 @@ class DashboardPatient extends StatefulWidget {
 class DashboardState extends State {
   bool showPatientInfo = true;
   bool showPatientHealthInfo = true;
+
+  Widget customBox(String img, String title, String amount, String comment) {
+  return Card(
+    child: Container(
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Image.asset(img),
+          Text(title),
+          Text(amount),
+          Expanded(
+              child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(comment),
+          )),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget sectionCard(String title ,bool up ) {
+  return Card(
+    child: Container(
+      height: 60,
+      padding: const EdgeInsets.all(8),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text(
+            title,
+            style: TextStyle(
+                fontSize: 26.0,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.normal),
+          ),
+          Icon(
+           up? Icons.arrow_drop_up :  Icons.arrow_drop_down,
+            size: 50,
+            color: Colors.blue,
+          )
+        ],
+      ),
+    ),
+  );
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -165,51 +215,3 @@ class DashboardState extends State {
   }
 }
 
-Widget customBox(String img, String title, String amount, String comment) {
-  return Card(
-    child: Container(
-      padding: const EdgeInsets.all(10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Image.asset(img),
-          Text(title),
-          Text(amount),
-          Expanded(
-              child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(comment),
-          )),
-        ],
-      ),
-    ),
-  );
-}
-
-Widget sectionCard(String title ,bool up ) {
-  return Card(
-    child: Container(
-      height: 60,
-      padding: const EdgeInsets.all(8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            title,
-            style: TextStyle(
-                fontSize: 26.0,
-                fontWeight: FontWeight.bold,
-                fontStyle: FontStyle.normal),
-          ),
-          Icon(
-           up? Icons.arrow_drop_up :  Icons.arrow_drop_down,
-            size: 50,
-            color: Colors.blue,
-          )
-        ],
-      ),
-    ),
-  );
-}

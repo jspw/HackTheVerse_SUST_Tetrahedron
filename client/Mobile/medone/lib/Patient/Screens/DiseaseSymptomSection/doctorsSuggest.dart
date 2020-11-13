@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:medone/Patient/Widgets/doctorsList.dart';
-import '../../Widgets/secondaryAppbar.dart';
+
+import '../../../utils/customLib.dart';
 
 class DoctorsSuggest extends StatelessWidget {
   static const route = "/doctors-suggest";
@@ -36,7 +35,7 @@ class DoctorsSuggest extends StatelessWidget {
         child: SecondaryAppBar(symptom, "এই বিষয়ে বিশেষজ্ঞ ডাক্তারদের লিস্ট"),
         preferredSize: Size(MediaQuery.of(context).size.width, 130),
       ),
-      body: DoctorsList(doctors),
+      body: DoctorsListWidget(doctors),
     );
   }
 }

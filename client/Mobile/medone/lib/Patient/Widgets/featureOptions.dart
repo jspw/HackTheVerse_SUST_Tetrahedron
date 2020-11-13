@@ -1,8 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:medone/Patient/Screens/AmbulanceSection/services.dart';
-import 'package:medone/Patient/Screens/DiseaseSymptomSection/bodyParts.dart';
-import 'package:medone/Patient/Screens/DoctorSection/designation.dart';
-import 'package:medone/Patient/Screens/HospitalSection/hospitalTypes.dart';
+
+import '../../utils/customLib.dart';
 
 class FeatureOptions extends StatelessWidget {
   @override

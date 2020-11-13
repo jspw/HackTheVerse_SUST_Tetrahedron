@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:medone/Patient/Widgets/secondaryAppbar.dart';
-import 'package:medone/Patient/Widgets/types.dart';
+
+import '../../../utils/customLib.dart';
 
 class AmbulanceServices extends StatelessWidget {
   

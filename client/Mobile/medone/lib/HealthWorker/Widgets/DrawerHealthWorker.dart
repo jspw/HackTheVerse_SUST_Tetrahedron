@@ -1,9 +1,9 @@
 import '../../utils/customLib.dart';
 
-class DrawerX extends StatelessWidget {
+class CustomDrawer extends StatelessWidget {
   String name, role, id, apiUrl;
 
-  DrawerX(this.name, this.role, this.id, apiUrl);
+  CustomDrawer(this.name, this.role, this.id, apiUrl);
 
   Widget OptionsBuilder(
       BuildContext context, String route, String option, Icon icon,
@@ -80,11 +80,14 @@ class DrawerX extends StatelessWidget {
     // TODO: implement build
     // throw UnimplementedError();
     return Drawer(
-      child: ListView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
             padding: const EdgeInsets.all(10.0),
             // height: 220.0,
+            width: MediaQuery.of(context).size.width,
             color: Colors.indigo[200],
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -146,52 +149,6 @@ class DrawerX extends StatelessWidget {
           ),
           Column(
             children: <Widget>[
-              OptionsBuilder(
-                context,
-                DashboardPatient.route,
-                "Dashboard",
-                Icon(
-                  Icons.dashboard,
-                  color: Theme.of(context).secondaryHeaderColor,
-                ),
-              ),
-              OptionsBuilder(
-                context,
-                "Addresses.route",
-                "Appointments",
-                Icon(
-                  Icons.list,
-                  color: Theme.of(context).secondaryHeaderColor,
-                ),
-                // HomeScreenState.center
-              ),
-              OptionsBuilder(
-                context,
-                Prescriptions.route,
-                "Prescriptions",
-                Icon(
-                  Icons.receipt,
-                  color: Theme.of(context).secondaryHeaderColor,
-                ),
-              ),
-              OptionsBuilder(
-                context,
-                MedicalRecord.route,
-                "Medical Records",
-                Icon(
-                  Icons.healing,
-                  color: Theme.of(context).secondaryHeaderColor,
-                ),
-              ),
-              OptionsBuilder(
-                context,
-                Billing.route,
-                "Billing",
-                Icon(
-                  Icons.attach_money,
-                  color: Theme.of(context).secondaryHeaderColor,
-                ),
-              ),
               SizedBox(
                 height: 20.0,
               ),

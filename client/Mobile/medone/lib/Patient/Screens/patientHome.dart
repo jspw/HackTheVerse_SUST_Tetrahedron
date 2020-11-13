@@ -1,14 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:medone/Patient/Widgets/ads.dart';
-import 'package:medone/Patient/Widgets/drawer.dart';
-import 'package:medone/Patient/Widgets/featureOptions.dart';
+import '../../utils/customLib.dart';
 
-
-String apiUrl = "https://cc0d906a8f3c.ngrok.io/";
 class PatientHome extends StatelessWidget {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   static const route = "/patient-home";
+
+  String apiUrl = "https://cc0d906a8f3c.ngrok.io/";
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +78,8 @@ class PatientHome extends StatelessWidget {
           ),
         ],
       ),
-      drawer: DrawerX(UserInfo["name"],UserInfo["role"],UserInfo["id"],apiUrl),
+      drawer:
+          DrawerX(UserInfo["name"], UserInfo["role"], UserInfo["id"], apiUrl),
     );
   }
 }

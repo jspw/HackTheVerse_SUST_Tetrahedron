@@ -1,12 +1,8 @@
-import 'dart:io';
 
-import 'package:flutter/material.dart';
-import 'package:medone/Admin/Widgets/customTextField.dart';
-import 'package:medone/Doctor/Screens/doctorHome.dart';
-import 'package:medone/Patient/Screens/patientHome.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../../utils/customLib.dart';
 
 // khan@kh.an
 // mypass1234
@@ -16,8 +12,6 @@ import 'dart:convert';
 //patient
 // mypass12a324
 // as@khaaaaa.an
-
-final String apiUrl = "https://cc0d906a8f3c.ngrok.io/";
 
 class Login extends StatefulWidget {
   static const route = "/login";
@@ -31,6 +25,7 @@ class Login extends StatefulWidget {
 }
 
 class LoginState extends State {
+  final String apiUrl = "https://cc0d906a8f3c.ngrok.io/";
   TextEditingController _emailController, _passwordController;
   bool _rembermeValue = false;
 

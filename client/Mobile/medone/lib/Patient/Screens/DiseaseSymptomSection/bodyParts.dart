@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:medone/Patient/Screens/DiseaseSymptomSection/selectSymtoms.dart';
-import 'package:medone/Patient/Widgets/secondaryAppbar.dart';
-import 'package:medone/Patient/Widgets/types.dart';
+import '../../../utils/customLib.dart';
 
 class SymtomsFindingSelectPart extends StatelessWidget {
   static const route = "/find-symtomps-select-part";

@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:medone/Doctor/Screens/test.dart';
-import 'package:medone/Doctor/Widgets/customDrawer.dart';
-
-final apiUrl = "https://cc0d906a8f3c.ngrok.io/";
+import '../../utils/customLib.dart';
 
 class DoctorHome extends StatefulWidget {
   static const route = "/doctor-home";
@@ -19,7 +15,36 @@ class DoctorHomeState extends State {
   bool showTodaysApointments = true;
   bool showUpcomingApointments = true;
 
+  final apiUrl = "https://cc0d906a8f3c.ngrok.io/";
+
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  Widget sectionCard(String title, bool up) {
+    return Card(
+      child: Container(
+        height: 60,
+        padding: const EdgeInsets.all(8),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              title,
+              style: TextStyle(
+                  fontSize: 26.0,
+                  fontWeight: FontWeight.w700,
+                  fontStyle: FontStyle.normal),
+            ),
+            Icon(
+              up ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+              size: 50,
+              color: Colors.blue,
+            )
+          ],
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -163,7 +188,7 @@ class DoctorHomeState extends State {
                         padding: const EdgeInsets.all(8.0),
                         child: GestureDetector(
                             onTap: () =>
-                                Navigator.pushNamed(context, Test.route),
+                                Navigator.pushNamed(context, "Test.route"),
                             child: Container(
                                 padding: const EdgeInsets.all(5),
                                 color: Colors.red,
@@ -263,7 +288,7 @@ class DoctorHomeState extends State {
                         padding: const EdgeInsets.all(8.0),
                         child: GestureDetector(
                             onTap: () =>
-                                Navigator.pushNamed(context, Test.route),
+                                Navigator.pushNamed(context, "Test.route"),
                             child: Container(
                                 padding: const EdgeInsets.all(5),
                                 color: Colors.red,
@@ -280,34 +305,8 @@ class DoctorHomeState extends State {
             ),
         ],
       ),
-      drawer: DrawerX(UserInfo["name"],UserInfo["role"],UserInfo["id"],apiUrl),
+      drawer:
+          DrawerX(UserInfo["name"], UserInfo["role"], UserInfo["id"], apiUrl),
     );
   }
-}
-
-Widget sectionCard(String title, bool up) {
-  return Card(
-    child: Container(
-      height: 60,
-      padding: const EdgeInsets.all(8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            title,
-            style: TextStyle(
-                fontSize: 26.0,
-                fontWeight: FontWeight.w700,
-                fontStyle: FontStyle.normal),
-          ),
-          Icon(
-            up ? Icons.arrow_drop_up : Icons.arrow_drop_down,
-            size: 50,
-            color: Colors.blue,
-          )
-        ],
-      ),
-    ),
-  );
 }

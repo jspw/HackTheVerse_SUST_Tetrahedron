@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:medone/Patient/Widgets/doctorsList.dart';
-import 'package:medone/Patient/Widgets/secondaryAppbar.dart';
+import '../../../utils/customLib.dart';
 
 class Doctors extends StatelessWidget {
 
@@ -35,7 +33,7 @@ class Doctors extends StatelessWidget {
           child: SecondaryAppBar(specialist+"s", specialist + "s NearBy You"),
           preferredSize: Size(MediaQuery.of(context).size.width, 130)),
 
-      body: DoctorsList(doctors),
+      body: DoctorsListWidget(doctors),
     );
   }
 }

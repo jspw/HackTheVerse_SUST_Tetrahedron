@@ -1,15 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:medone/Admin/Screens/login.dart';
-import 'package:medone/Doctor/Screens/patient.dart';
-import 'package:medone/Doctor/Screens/allApointmentsDoctor.dart';
-import 'package:medone/Doctor/Screens/dashboardDoctor.dart';
-import 'package:medone/Patient/Screens/Profile/billing.dart';
-import 'package:medone/Patient/Screens/Profile/dashboardPatient.dart';
-import 'package:medone/Patient/Screens/Profile/medicalRecords.dart';
-import 'package:medone/Patient/Screens/Profile/prescriptions.dart';
+import '../../utils/customLib.dart';
 
 class DrawerX extends StatelessWidget {
-
   String name, role, id, apiUrl;
 
   DrawerX(this.name, this.role, this.id, apiUrl);

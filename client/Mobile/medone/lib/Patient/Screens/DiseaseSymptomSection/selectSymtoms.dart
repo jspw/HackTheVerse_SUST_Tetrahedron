@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:medone/Patient/Screens/DiseaseSymptomSection/doctorsSuggest.dart';
-import 'package:medone/Patient/Widgets/secondaryAppbar.dart';
+import '../../../utils/customLib.dart';
+
 
 class SelectSymtoms extends StatelessWidget {
   static const route = "/select-symptoms";

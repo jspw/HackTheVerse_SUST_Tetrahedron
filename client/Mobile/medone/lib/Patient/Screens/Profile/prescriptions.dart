@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:medone/Patient/Screens/Profile/prescriptionDetail.dart';
+import '../../../utils/customLib.dart';
 
 class Prescriptions extends StatelessWidget {
   static const route = "/prescriptions";

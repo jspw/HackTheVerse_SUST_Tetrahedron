@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:medone/Patient/Screens/takeAppointment.dart';
+import '../../utils/customLib.dart';
 
-class DoctorsList extends StatelessWidget {
+class DoctorsListWidget extends StatelessWidget {
   List<Map<String, String>> doctors;
 
-  DoctorsList(this.doctors);
+  DoctorsListWidget(this.doctors);
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import '../../../utils/customLib.dart';
 
 class MedicalRecord extends StatelessWidget {
   static const route = "/medical-record";
