@@ -10,8 +10,13 @@ class PatientHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    // throw UnimplementedError();
+    final routeArgs =
+        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+
+    var UserInfo = routeArgs['UserInfo'];
+
+    print(UserInfo);
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -74,7 +79,7 @@ class PatientHome extends StatelessWidget {
           ),
         ],
       ),
-      drawer: DrawerX(),
+      drawer: DrawerX(UserInfo["name"],UserInfo["name"]),
     );
   }
 }

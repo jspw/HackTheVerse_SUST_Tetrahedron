@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:medone/Doctor/Screens/test.dart';
 import 'package:medone/Doctor/Widgets/customDrawer.dart';
 
 class DoctorHome extends StatefulWidget {
   static const route = "/doctor-home";
+
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -19,6 +21,13 @@ class DoctorHomeState extends State {
 
   @override
   Widget build(BuildContext context) {
+    final routeArgs =
+        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+
+    var UserInfo = routeArgs['UserInfo'];
+
+    print(UserInfo);
+
     // TODO: implement build
     // throw UnimplementedError();
     return Scaffold(
@@ -77,73 +86,94 @@ class DoctorHomeState extends State {
             child: sectionCard("Todays Appointments", showTodaysApointments),
           ),
           if (showTodaysApointments)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Patient",
-                    style: TextStyle(
-                        fontSize: 22.0,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.grey),
+            DataTable(
+              // showCheckboxColumn: true,
+              columnSpacing: 1.0,
+              horizontalMargin: 2,
+              // dataRowHeight: 50,
+              // headingRowHeight: 80,
+              columns: const <DataColumn>[
+                DataColumn(
+                  label: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Patient",
+                      style: TextStyle(
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.grey),
+                    ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Time",
-                    style: TextStyle(
-                        fontSize: 22.0,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.grey),
+                DataColumn(
+                  label: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Time",
+                      style: TextStyle(
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.grey),
+                    ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Action",
-                    style: TextStyle(
-                        fontSize: 22.0,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.grey),
+                DataColumn(
+                  label: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Action",
+                      style: TextStyle(
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.grey),
+                    ),
                   ),
                 ),
               ],
-            ),
-          if (showTodaysApointments) Divider(),
-          if (showTodaysApointments)
-            Column(
-              children: List.generate(
-                7,
-                (int index) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
+              rows: List<DataRow>.generate(
+                5,
+                (index) => DataRow(
+                  cells: [
+                    DataCell(
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text("Rahim Ullah"),
+                        child: Text(
+                          "Rahim sa ssas Ullah",
+                          overflow: TextOverflow.visible,
+                          style: TextStyle(
+                            fontSize: 18.0,
+                          ),
+                        ),
                       ),
+                    ),
+                    DataCell(
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text("7PM"),
+                        child: Text("7PM",
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 18.0,
+                            )),
                       ),
+                    ),
+                    DataCell(
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: GestureDetector(
-                            onTap: () => debugPrint("a"),
+                            onTap: () =>
+                                Navigator.pushNamed(context, Test.route),
                             child: Container(
                                 padding: const EdgeInsets.all(5),
                                 color: Colors.red,
                                 child: Text(
                                   "Cancel",
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
                                 ))),
                       ),
-                    ],
-                  );
-                },
+                    )
+                  ],
+                ),
               ),
             ),
           GestureDetector(
@@ -156,73 +186,94 @@ class DoctorHomeState extends State {
                 sectionCard("Upcoming Appointments", showUpcomingApointments),
           ),
           if (showUpcomingApointments)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Patient",
-                    style: TextStyle(
-                        fontSize: 22.0,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.grey),
+            DataTable(
+              // showCheckboxColumn: true,
+              columnSpacing: 1.0,
+              horizontalMargin: 2,
+              // dataRowHeight: 50,
+              // headingRowHeight: 80,
+              columns: const <DataColumn>[
+                DataColumn(
+                  label: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Patient",
+                      style: TextStyle(
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.grey),
+                    ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Date",
-                    style: TextStyle(
-                        fontSize: 22.0,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.grey),
+                DataColumn(
+                  label: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Date",
+                      style: TextStyle(
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.grey),
+                    ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Action",
-                    style: TextStyle(
-                        fontSize: 22.0,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.grey),
+                DataColumn(
+                  label: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Action",
+                      style: TextStyle(
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.grey),
+                    ),
                   ),
                 ),
               ],
-            ),
-          if (showUpcomingApointments) Divider(),
-          if (showUpcomingApointments)
-            Column(
-              children: List.generate(
-                7,
-                (int index) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
+              rows: List<DataRow>.generate(
+                5,
+                (index) => DataRow(
+                  cells: [
+                    DataCell(
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text("Rahim Ullah"),
+                        child: Text(
+                          "Mr Kakku",
+                          overflow: TextOverflow.visible,
+                          style: TextStyle(
+                            fontSize: 18.0,
+                          ),
+                        ),
                       ),
+                    ),
+                    DataCell(
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text("20/13/2089"),
+                        child: Text("20/12/2038",
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 18.0,
+                            )),
                       ),
+                    ),
+                    DataCell(
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: GestureDetector(
-                            onTap: () => debugPrint("a"),
+                            onTap: () =>
+                                Navigator.pushNamed(context, Test.route),
                             child: Container(
                                 padding: const EdgeInsets.all(5),
                                 color: Colors.red,
                                 child: Text(
                                   "Cancel",
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
                                 ))),
                       ),
-                    ],
-                  );
-                },
+                    )
+                  ],
+                ),
               ),
             ),
         ],

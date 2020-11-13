@@ -3,6 +3,7 @@ import 'package:medone/Doctor/Screens/patient.dart';
 import 'package:medone/Doctor/Screens/allApointmentsDoctor.dart';
 import 'package:medone/Doctor/Screens/dashboardDoctor.dart';
 import 'package:medone/Doctor/Screens/doctorHome.dart';
+import 'package:medone/Doctor/Screens/test.dart';
 import 'package:medone/Patient/Screens/AmbulanceSection/services.dart';
 import 'package:medone/Patient/Screens/DiseaseSymptomSection/doctorsSuggest.dart';
 import 'package:medone/Patient/Screens/DiseaseSymptomSection/selectSymtoms.dart';
@@ -41,7 +42,9 @@ void main() {
         ),
       ),
     ),
-    initialRoute: DoctorHome.route,
+    // initialRoute: DoctorHome.route,
+    // initialRoute: PatientHome.route,
+    initialRoute: Login.route,
     routes: {
       Login.route: (context) => Login(),
       // User : Patient
@@ -64,6 +67,7 @@ void main() {
       DashboardDoctor.route : (coontex) => DashboardDoctor(), 
       AppointmentsDoctor.route : (contex) => AppointmentsDoctor(),
       Patient.route : (context) => Patient(),
+      Test.route : (contex) => Test(),
     },
   ));
 }

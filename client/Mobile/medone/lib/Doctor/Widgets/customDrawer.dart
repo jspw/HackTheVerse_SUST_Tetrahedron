@@ -9,6 +9,11 @@ import 'package:medone/Patient/Screens/Profile/medicalRecords.dart';
 import 'package:medone/Patient/Screens/Profile/prescriptions.dart';
 
 class DrawerX extends StatelessWidget {
+  
+  String name, role, id, apiUrl;
+
+  DrawerX(this.name, this.role, this.id, apiUrl);
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -129,9 +134,9 @@ class DrawerX extends StatelessWidget {
               SizedBox(
                 height: 20.0,
               ),
-              OptionsBuilder2(context, "Settings",""),
-              OptionsBuilder2(context, "Terms & Conditions / Privacy",""),
-              OptionsBuilder2(context, "Log Out",Login.route),
+              OptionsBuilder2(context, "Settings", ""),
+              OptionsBuilder2(context, "Terms & Conditions / Privacy", ""),
+              OptionsBuilder2(context, "Log Out", Login.route),
             ],
           ),
         ],
@@ -187,7 +192,7 @@ Widget OptionsBuilder(
   );
 }
 
-Widget OptionsBuilder2(BuildContext context, String option,String route) {
+Widget OptionsBuilder2(BuildContext context, String option, String route) {
   return InkWell(
     onTap: () => Navigator.pushNamed(context, route),
     hoverColor: Colors.grey,
