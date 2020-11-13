@@ -1,0 +1,49 @@
+<br>
+<button mat-button flex style="width: 100%; background-color: grey;" class="mat-title" >Medication Routine</button>
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!-- Name Column -->
+    
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+    </ng-container>
+  
+    <!-- Name Column
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+    </ng-container> -->
+  
+    <!-- Dose Column -->
+    <ng-container matColumnDef="dose">
+      <mat-header-cell *matHeaderCellDef> Dose </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.dose}} </mat-cell>
+    </ng-container>
+    <!-- Frequency Column -->
+    <ng-container matColumnDef="frequency">
+        <mat-header-cell *matHeaderCellDef > Frequency </mat-header-cell>
+        <mat-cell *matCellDef="let element" > 
+            <div class="example-button-row">
+                <button mat-mini-fab [disabled] ="element.frequency[0] == 0" color="primary" > {{element.frequency[0]}} </button>
+                <button mat-mini-fab [disabled] ="element.frequency[1] == 0" color="primary" > {{element.frequency[1]}} </button>
+                <button mat-mini-fab [disabled] ="element.frequency[2] == 0" color="primary" > {{element.frequency[2]}} </button>
+            </div>
+        </mat-cell>
+      </ng-container>
+  
+    <!-- Prescribed_Date Column -->
+    <ng-container matColumnDef="prescribed_date">
+      <mat-header-cell *matHeaderCellDef> Prescribed Date </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.prescribed_date.toDateString()}} </mat-cell>
+    </ng-container>
+
+    <!-- End_Date Column -->
+    <ng-container matColumnDef="end_date">
+        <mat-header-cell *matHeaderCellDef> End Date </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.end_date.toDateString()}} </mat-cell>
+      </ng-container>
+  
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+  <br><br>
