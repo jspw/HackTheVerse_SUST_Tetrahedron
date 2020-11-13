@@ -1,0 +1,22 @@
+.example-card {
+  max-width: 400px;
+}
+
+/* .example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+} */
+
+.valign {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    /* vendor prefixes omitted due to brevity */
+}
+
+.halign {
+    position: relative;
+    right: 50%;
+    transform: translateX(-50%);
+    /* vendor prefixes omitted due to brevity */
+}
