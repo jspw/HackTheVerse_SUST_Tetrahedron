@@ -9,7 +9,7 @@ import 'package:medone/Patient/Screens/Profile/medicalRecords.dart';
 import 'package:medone/Patient/Screens/Profile/prescriptions.dart';
 
 class DrawerX extends StatelessWidget {
-  
+
   String name, role, id, apiUrl;
 
   DrawerX(this.name, this.role, this.id, apiUrl);
@@ -49,13 +49,13 @@ class DrawerX extends StatelessWidget {
                   child: Column(
                     children: <Widget>[
                       Text(
-                        "Mehedi Hasan Shifat",
+                        name,
                         style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 20.0),
                       ),
-                      Text("(Doctor)"),
+                      Text("($role)"),
                     ],
                   ),
                 ),

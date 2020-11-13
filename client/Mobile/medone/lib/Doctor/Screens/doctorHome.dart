@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:medone/Doctor/Screens/test.dart';
 import 'package:medone/Doctor/Widgets/customDrawer.dart';
 
+final apiUrl = "https://cc0d906a8f3c.ngrok.io/";
+
 class DoctorHome extends StatefulWidget {
   static const route = "/doctor-home";
 
@@ -278,7 +280,7 @@ class DoctorHomeState extends State {
             ),
         ],
       ),
-      drawer: DrawerX(),
+      drawer: DrawerX(UserInfo["name"],UserInfo["role"],UserInfo["id"],apiUrl),
     );
   }
 }

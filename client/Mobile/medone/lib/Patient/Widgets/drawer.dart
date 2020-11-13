@@ -45,13 +45,13 @@ class DrawerX extends StatelessWidget {
                   child: Column(
                     children: <Widget>[
                       Text(
-                        "Mehedi Hasan Shifat",
+                        name,
                         style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 20.0),
                       ),
-                      Text("(Patient)"),
+                      Text("($role)"),
                     ],
                   ),
                 ),

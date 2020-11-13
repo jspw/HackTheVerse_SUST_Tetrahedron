@@ -3,6 +3,8 @@ import 'package:medone/Patient/Widgets/ads.dart';
 import 'package:medone/Patient/Widgets/drawer.dart';
 import 'package:medone/Patient/Widgets/featureOptions.dart';
 
+
+String apiUrl = "https://cc0d906a8f3c.ngrok.io/";
 class PatientHome extends StatelessWidget {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -79,7 +81,7 @@ class PatientHome extends StatelessWidget {
           ),
         ],
       ),
-      drawer: DrawerX(UserInfo["name"],UserInfo["name"]),
+      drawer: DrawerX(UserInfo["name"],UserInfo["role"],UserInfo["id"],apiUrl),
     );
   }
 }
