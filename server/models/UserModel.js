@@ -15,6 +15,7 @@ const userSchema = new Schema({
   username: {
     type: String,
     required: [true, 'Please give a username'],
+    unique: true,
   },
   email: {
     type: String,
@@ -46,6 +47,7 @@ const userSchema = new Schema({
   role: {
     type: String,
     enum: ['admin', 'doctor', 'nurse', 'ward-monitor'],
+    required: [true, 'A user must have a role'],
   },
 });
 

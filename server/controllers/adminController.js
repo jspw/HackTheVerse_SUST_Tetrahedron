@@ -8,15 +8,6 @@ const jwt = require('jsonwebtoken');
 const UserModel = require('../models/UserModel');
 const HospitalModel = require('../models/HospitalModel');
 
-// Function to get all users
-const getUser = catchAsync(async (req, res, next) => {
-  const users = await UserModel.find();
-  res.status(200).json({
-    status: 'success',
-    data: { users },
-  });
-});
-
 // Function to sign up a user
 const register = catchAsync(async (req, res, next) => {
   const { admin, hospital } = req.body;
@@ -44,58 +35,42 @@ const register = catchAsync(async (req, res, next) => {
 
 // Function to login a user
 const login = catchAsync(async (req, res, next) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
-  if (!email || !password) {
-    return next(new AppError('Provide valid email and password!', 400));
+  if (!username || !password) {
+    return next(new AppError('Provide valid username and password!', 400));
   }
 
-  const user = await UserModel.findOne({ email }).select('+password');
-  if (!user) return next(new AppError('Invalid email or password', 401));
+  const user = await UserModel.findOne({ username }).select('+password');
+  if (!user) return next(new AppError('Invalid username or password', 401));
 
   const correct = await bcrypt.compare(password, user.password);
-  if (!correct) return next(new AppError('Invalid email or password', 401));
+  if (!correct) return next(new AppError('Invalid username or password', 401));
 
-  sendToken(user, 201, res);
+  const hospital = await HospitalModel.findById(user.hospital);
+
+  sendToken(user, hospital, 201, res);
 });
 
-const logout = catchAsync(async (req, res, next) => {
-  res.status(200).json({ status: 'success' });
-});
-
-// Function to get user by id
-const getSingleUser = catchAsync(async (req, res, next) => {
-  const user = await UserModel.findById(req.params.id);
-
-  if (!user) return next(new AppError('Not found!', 404));
-
-  res.status(200).json({
-    status: 'success',
-    data: { user },
+const createUser = catchAsync(async (req, res, next) => {
+  const { name, username, email, password, phone, role } = req.body;
+  const newUser = new UserModel({
+    name,
+    username: username.toLowerCase(),
+    email,
+    password,
+    phone,
+    role,
+    hospital: req.user.hospital,
   });
-});
+  const user = await newUser.save();
+  user.password = undefined;
 
-// Get My Profile
-const getMyProfile = catchAsync(async (req, res, next) => {
-  res.status(200).json({
+  res.status(201).json({
     status: 'success',
-    data: { user: req.user },
-  });
-});
-
-// Update Profile
-const updateProfile = catchAsync(async (req, res, next) => {
-  const name = req.body.name || req.user.name;
-  const phone = req.body.phone || req.user.phone;
-  const updatedUser = await UserModel.findOneAndUpdate(
-    { _id: req.user._id },
-    { name, phone },
-    { new: true },
-  );
-
-  res.status(200).json({
-    status: 'success',
-    data: { user: updatedUser },
+    data: {
+      user,
+    },
   });
 });
 
@@ -126,4 +101,6 @@ const sendToken = (user, hospital, statusCode, res) => {
 
 module.exports = {
   register,
+  login,
+  createUser,
 };
