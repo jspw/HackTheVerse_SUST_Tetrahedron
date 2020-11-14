@@ -8,21 +8,23 @@ import { MaterialModule } from '../material.module';
 import { PrescriptionFormComponent } from './prescription-form/prescription-form.component';
 import { DoctorHomeComponent } from './doctor-home/doctor-home.component';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { PatientStatusComponent } from './doctor-home/patient-status/patient-status.component';
 
 @NgModule({
   declarations: [
     DoctorComponent,
     AppointmentTableComponent,
     PrescriptionFormComponent,
-    DoctorHomeComponent
+    DoctorHomeComponent,
+    PatientStatusComponent
   ],
   imports: [
     CommonModule,
     DoctorRoutingModule,
     ReactiveFormsModule,
 
-    MaterialModule
+    MaterialModule,
+
   ]
 })
 export class DoctorModule { }

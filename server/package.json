@@ -30,6 +30,7 @@
     "mongoose": "^5.10.6",
     "morgan": "^1.10.0",
     "redis": "^3.0.2",
+    "socket.io": "^3.0.1",
     "validator": "^13.1.17",
     "xss-clean": "^0.1.1"
   },
