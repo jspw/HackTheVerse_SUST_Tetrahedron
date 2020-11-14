@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WardMonitorComponent implements OnInit {
 
+  sidenav = false;
   constructor() { }
 
   ngOnInit(): void {

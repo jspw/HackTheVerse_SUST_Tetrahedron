@@ -10,13 +10,14 @@ import { DataVisualizationComponent } from './data-visualization/data-visualizat
 import { ReactiveFormsModule } from '@angular/forms';
 import { PatientAdmissionFormComponent } from './patient-admission-form/patient-admission-form.component';
 import { HttpClientModule } from '@angular/common/http';
+import { PatientProfileComponent } from './patient-profile/patient-profile.component';
 
 @NgModule({
   declarations: [
     WardMonitorComponent, 
     WardMonitorDashboardComponent, 
     PatientStatusTableComponent, 
-    DataVisualizationComponent, PatientAdmissionFormComponent,
+    DataVisualizationComponent, PatientAdmissionFormComponent, PatientProfileComponent,
   ],
   imports: [
     CommonModule,

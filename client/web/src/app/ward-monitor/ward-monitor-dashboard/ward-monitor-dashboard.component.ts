@@ -8,7 +8,7 @@ import {Chart} from 'chart.js';
 })
 export class WardMonitorDashboardComponent implements OnInit {
 
-  sidenav = false;
+  
   constructor() { }
   
   //Pie Chart
