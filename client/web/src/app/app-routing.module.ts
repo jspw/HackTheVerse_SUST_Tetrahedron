@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
+import { WardMonitorModule } from './ward-monitor/ward-monitor.module';
 
 const routes: Routes = [
   {
@@ -18,6 +19,10 @@ const routes: Routes = [
   {
     path: 'patient',
     loadChildren: () => import('./patient/patient.module').then(m => m.PatientModule)
+  },
+  {
+    path: 'ward-monitor',
+    loadChildren: () => import('./ward-monitor/ward-monitor.module').then(m => m.WardMonitorModule)
   },
   {
     path: 'admin',
