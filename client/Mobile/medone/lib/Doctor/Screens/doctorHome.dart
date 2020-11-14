@@ -12,33 +12,30 @@ class DoctorHome extends StatefulWidget {
 }
 
 class DoctorHomeState extends State {
-  bool showTodaysApointments = true;
-  bool showUpcomingApointments = true;
-
-  final apiUrl = "https://cc0d906a8f3c.ngrok.io/";
-
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  Widget sectionCard(String title, bool up) {
-    return Card(
-      child: Container(
-        height: 60,
-        padding: const EdgeInsets.all(8),
-        child: Row(
+  Widget featureOptions(
+      BuildContext contex, String title, String route, String imgUrl) {
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(contex, route),
+      child: Card(
+        color: Colors.lightBlue[800],
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Text(
-              title,
-              style: TextStyle(
-                  fontSize: 26.0,
-                  fontWeight: FontWeight.w700,
-                  fontStyle: FontStyle.normal),
+            Container(
+              child: Image.asset(imgUrl),
             ),
-            Icon(
-              up ? Icons.arrow_drop_up : Icons.arrow_drop_down,
-              size: 50,
-              color: Colors.blue,
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text(
+                title,
+                style: TextStyle(
+                    fontSize: 20.0,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w900),
+              ),
             )
           ],
         ),
@@ -52,11 +49,8 @@ class DoctorHomeState extends State {
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
 
     var UserInfo = routeArgs['UserInfo'];
+    String auth = routeArgs['auth'];
 
-    print(UserInfo);
-
-    // TODO: implement build
-    // throw UnimplementedError();
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -69,244 +63,62 @@ class DoctorHomeState extends State {
           onPressed: () => _scaffoldKey.currentState.openDrawer(),
         ),
         title: Text(
-          "মেডি সেবা",
+          "MedOne",
           style: Theme.of(context).textTheme.headline1,
         ),
         centerTitle: true,
         actions: <Widget>[
-          Stack(
-            textDirection: TextDirection.rtl,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(
-                  Icons.notifications,
-                  color: Theme.of(context).accentColor,
-                  size: 40,
+          GestureDetector(
+            onTap: () =>
+                Navigator.pushNamed(context, NotificationsToNurse.route),
+            child: Stack(
+              textDirection: TextDirection.rtl,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.notifications,
+                    color: Theme.of(context).accentColor,
+                    size: 40,
+                  ),
                 ),
-                onPressed: () => Navigator.pushNamed(context, "Cart.route"),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  padding: const EdgeInsets.all(5),
-                  // alignment: Alignment.topRight,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: Colors.blue),
-                  child: Text("5",
-                      style: TextStyle(color: Colors.white, fontSize: 14)),
-                ),
-              )
-            ],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: Colors.blue),
+                    child: Text("5",
+                        style: TextStyle(color: Colors.white, fontSize: 15)),
+                  ),
+                )
+              ],
+            ),
           ),
         ],
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(10),
-        children: <Widget>[
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                showTodaysApointments = !showTodaysApointments;
-              });
-            },
-            child: sectionCard("Todays Appointments", showTodaysApointments),
-          ),
-          if (showTodaysApointments)
-            DataTable(
-              // showCheckboxColumn: true,
-              columnSpacing: 1.0,
-              horizontalMargin: 2,
-              // dataRowHeight: 50,
-              // headingRowHeight: 80,
-              columns: const <DataColumn>[
-                DataColumn(
-                  label: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "Patient",
-                      style: TextStyle(
-                          fontSize: 22.0,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.grey),
-                    ),
-                  ),
-                ),
-                DataColumn(
-                  label: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "Time",
-                      style: TextStyle(
-                          fontSize: 22.0,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.grey),
-                    ),
-                  ),
-                ),
-                DataColumn(
-                  label: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "Action",
-                      style: TextStyle(
-                          fontSize: 22.0,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.grey),
-                    ),
-                  ),
-                ),
-              ],
-              rows: List<DataRow>.generate(
-                5,
-                (index) => DataRow(
-                  cells: [
-                    DataCell(
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Rahim sa ssas Ullah",
-                          overflow: TextOverflow.visible,
-                          style: TextStyle(
-                            fontSize: 18.0,
-                          ),
-                        ),
-                      ),
-                    ),
-                    DataCell(
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text("7PM",
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 18.0,
-                            )),
-                      ),
-                    ),
-                    DataCell(
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: GestureDetector(
-                            onTap: () =>
-                                Navigator.pushNamed(context, "Test.route"),
-                            child: Container(
-                                padding: const EdgeInsets.all(5),
-                                color: Colors.red,
-                                child: Text(
-                                  "Cancel",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 18),
-                                ))),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                showUpcomingApointments = !showUpcomingApointments;
-              });
-            },
-            child:
-                sectionCard("Upcoming Appointments", showUpcomingApointments),
-          ),
-          if (showUpcomingApointments)
-            DataTable(
-              // showCheckboxColumn: true,
-              columnSpacing: 1.0,
-              horizontalMargin: 2,
-              // dataRowHeight: 50,
-              // headingRowHeight: 80,
-              columns: const <DataColumn>[
-                DataColumn(
-                  label: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "Patient",
-                      style: TextStyle(
-                          fontSize: 22.0,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.grey),
-                    ),
-                  ),
-                ),
-                DataColumn(
-                  label: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "Date",
-                      style: TextStyle(
-                          fontSize: 22.0,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.grey),
-                    ),
-                  ),
-                ),
-                DataColumn(
-                  label: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "Action",
-                      style: TextStyle(
-                          fontSize: 22.0,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.grey),
-                    ),
-                  ),
-                ),
-              ],
-              rows: List<DataRow>.generate(
-                5,
-                (index) => DataRow(
-                  cells: [
-                    DataCell(
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Mr Kakku",
-                          overflow: TextOverflow.visible,
-                          style: TextStyle(
-                            fontSize: 18.0,
-                          ),
-                        ),
-                      ),
-                    ),
-                    DataCell(
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text("20/12/2038",
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 18.0,
-                            )),
-                      ),
-                    ),
-                    DataCell(
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: GestureDetector(
-                            onTap: () =>
-                                Navigator.pushNamed(context, "Test.route"),
-                            child: Container(
-                                padding: const EdgeInsets.all(5),
-                                color: Colors.red,
-                                child: Text(
-                                  "Cancel",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 18),
-                                ))),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-        ],
+      body: Container(
+        padding: const EdgeInsets.all(20),
+        alignment: AlignmentDirectional.center,
+        child: GridView.count(
+          childAspectRatio: 1.2,
+          children: <Widget>[
+            featureOptions(context, "My Tasks", TaskWorkers.route,
+                "assets/images/medical-record.png"),
+            featureOptions(context, "Patient List", PatientsList.route,
+                "assets/images/hospitalisation.png"),
+            featureOptions(context, "Doctors", DoctorsList.route,
+                "assets/images/doctor.png"),
+            featureOptions(
+                context, "Chat", "/all-doctors-list", "assets/images/chat.png"),
+          ],
+          crossAxisCount: 2,
+          shrinkWrap: true,
+          physics: ScrollPhysics(),
+        ),
       ),
-      drawer:
-          DrawerX(UserInfo["name"], UserInfo["role"], UserInfo["id"], apiUrl),
+      drawer: CustomDrawer(UserInfo["name"], UserInfo["role"], "hash", "http"),
     );
   }
 }

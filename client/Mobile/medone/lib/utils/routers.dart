@@ -24,9 +24,9 @@ class Routes {
 
       // User : Doctor
       DoctorHome.route: (cotext) => DoctorHome(),
-      DashboardDoctor.route: (coontex) => DashboardDoctor(),
-      AppointmentsDoctor.route: (contex) => AppointmentsDoctor(),
-      Patient.route: (context) => Patient(),
+      // DashboardDoctor.route: (coontex) => DashboardDoctor(),
+      // AppointmentsDoctor.route: (contex) => AppointmentsDoctor(),
+      // Patient.route: (context) => Patient(),
 
       //Health Worker
       HealthWorkerHome.route: (context) => HealthWorkerHome(),
@@ -41,5 +41,6 @@ class Routes {
   static initScreen() {
     return Login.route;
     // return HealthWorkerHome.route;
+    // return DoctorHome.route;
   }
 }
