@@ -29,6 +29,21 @@ mat-sidenav {
     background-color: #BEDCFE;
 }
 .example-card {
-    max-width: 100%;
-    margin-right: 10px;
+    max-width: 80%;
+  }
+
+  
+.wrapper{
+    width:60%;
+    display:block;
+    overflow:hidden;
+    margin:0 auto;
+    padding: 60px 50px;
+    background:#fff;
+    border-radius:4px;
+  }
+  
+  #stackCanvas{
+    background:#fff;
+    height:400px;
   }

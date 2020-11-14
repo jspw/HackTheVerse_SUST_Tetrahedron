@@ -6,12 +6,13 @@ import { WardMonitorComponent } from './ward-monitor.component';
 import { WardMonitorDashboardComponent } from './ward-monitor-dashboard/ward-monitor-dashboard.component';
 import { MaterialModule } from '../material.module';
 import { PatientStatusTableComponent } from './ward-monitor-dashboard/patient-status-table/patient-status-table.component';
+import { DataVisualizationComponent } from './data-visualization/data-visualization.component';
 
 @NgModule({
   declarations: [
     WardMonitorComponent, 
     WardMonitorDashboardComponent, 
-    PatientStatusTableComponent
+    PatientStatusTableComponent, DataVisualizationComponent
   ],
   imports: [
     CommonModule,
