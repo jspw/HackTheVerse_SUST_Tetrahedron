@@ -135,7 +135,7 @@ export class AuthService {
       console.log(tokenExpirationTimer);
 
       this.autoLogout(tokenExpirationTimer)
-      this.handleAuthenticatedUserNavigation(loadedUser)
+      // this.handleAuthenticatedUserNavigation(loadedUser)
     }
 
   }
@@ -230,7 +230,7 @@ export class AuthService {
     this.autoLogout(parseInt(expiresIn))
 
     this.user.next(user)
-    this.handleAuthenticatedUserNavigation(user)
+    // this.handleAuthenticatedUserNavigation(user)
   }
 
   private handleAuthenticatedUserNavigation(authUser: User) {
