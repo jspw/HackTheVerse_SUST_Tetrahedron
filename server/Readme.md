@@ -5,22 +5,18 @@
   - [Authorization](#authorization)
     - [Registration](#registration)
     - [Login](#login)
-    - [Access A Protected/Restricted Route](#access-a-protected-restricted-route)
-  - [Users](#users)
-    - [Get All Users](#get-all-users)
-    - [Get Single User](#get-single-user)
-  - [Profile](#profile)
-    - [Get User Profile](#get-user-profile)
-    - [Update User Profile](#update-user-profile)
-  - [Chambers](#chambers)
-    - [Create Chamber](#create-chamber)
-    - [Get All Chambers](#get-all-chambers)
-    - [Get All Chambers From A city](#get-all-chambers-from-a-city)
-  - [Appointments](#appointments)
-    - [Create Appointment](#create-appointment)
-    - [Get All Appointments](#get-all-appointments)
-    - [Get My Appointments](#get-my-appointments)
-    - [Get Single Appointment](#get-single-appointment)
+    - [Access A Protected or Restricted Route](#access-a-protected-or-restricted-route)
+  - [Admin](#admin)
+    - [Create User](#create-user)
+  - [Wards from Admin Hospital](#wards-from-admin-hospital)
+    - [Get Wards](#get-wards)
+    - [Create Ward](#create-ward)
+    - [Get Single Ward](#get-single-ward)
+    - [Update Ward](#update-ward)
+  - [Patients from Ward](#patients-from-ward)
+    - [Get Patients](#get-patients)
+    - [Admit Patient](#admit-patient)
+    - [Get Single Patient](#get-single-patient)
 
 ## Start Server
 
@@ -30,23 +26,30 @@ Then run `npm i` to install the required packages. Then run `npm run dev` to sta
 
 ## API Documentation
 
+> `*` means it is required
+
 ### Authorization
 
 #### Registration
 
-Request: `POST` `/users`
+Request: `POST` `/admin/register`
 
 Body:
 
 ```json
 {
-  "name": "Text",
-  "email": "Email",
-  "password": "Text",
-  "nid": "Text",
-  "phone": "Text",
-  "dateOfBirth": "Date",
-  "role": ["patient", "doctor", "pharmacy", "super-admin"]
+  "admin": {
+    "name": "Text*",
+    "username": "Text*",
+    "email": "Email",
+    "phone": "Phone",
+    "password": "Text*"
+  },
+  "hospital": {
+    "hospitalName": "Text*",
+    "address": "Text*",
+    "verificationDataURL": "Text*"
+  }
 }
 ```
 
@@ -57,18 +60,24 @@ Response:
   "status": "success",
   "jwt": {
     "token": "JWT Token",
-    "expiresIn": "Expiration Time: MS"
+    "expiresIn": "Time: ms"
   },
   "data": {
     "user": {
-      "role": "Text",
       "_id": "ObjectID",
       "name": "Text",
+      "username": "Text",
       "email": "Email",
-      "nid": "Text",
       "phone": "Text",
-      "dateOfBirth": "Date",
+      "role": "Text",
+      "hospital": "ObjectID",
       "registered_at": "Date"
+    },
+    "hospital": {
+      "verified": "Boolean",
+      "_id": "ObjectID",
+      "name": "Text",
+      "address": "Text"
     }
   }
 }
@@ -76,14 +85,14 @@ Response:
 
 #### Login
 
-Request: `POST` `/users/login`
+Request: `POST` `/admin/login`
 
 Body:
 
 ```json
 {
-  "email": "Email",
-  "password": "Text"
+  "username": "Text*",
+  "password": "Text*"
 }
 ```
 
@@ -94,24 +103,30 @@ Response:
   "status": "success",
   "jwt": {
     "token": "JWT Token",
-    "expiresIn": "Expiration Time: MS"
+    "expiresIn": "Time: ms"
   },
   "data": {
     "user": {
-      "role": "Text",
       "_id": "ObjectID",
       "name": "Text",
+      "username": "Text",
       "email": "Email",
-      "nid": "Text",
       "phone": "Text",
-      "dateOfBirth": "Date",
+      "role": "Text",
+      "hospital": "ObjectID",
       "registered_at": "Date"
+    },
+    "hospital": {
+      "verified": "Boolean",
+      "_id": "ObjectID",
+      "name": "Text",
+      "address": "Text"
     }
   }
 }
 ```
 
-#### Access A Protected/Restricted Route
+#### Access A Protected or Restricted Route
 
 Add the JSON Web Token, you get by logging in or during regestration, on the header like this.
 
@@ -123,94 +138,24 @@ Header:
 }
 ```
 
-### Users
+If the endpoint is restricted, it'd return a success response, only if the request comes from any allowed user.
 
-#### Get All Users
+### Admin
 
-Request: `PROTECTED` `GET` `/users`
+#### Create User
 
-Response:
-
-```json
-{
-  "status": "success",
-  "data": [
-    {
-      "user": {
-        "role": "Text",
-        "_id": "ObjectID",
-        "name": "Text",
-        "email": "Email",
-        "nid": "Text",
-        "phone": "Text",
-        "dateOfBirth": "Date",
-        "registered_at": "Date"
-      }
-    }
-  ]
-}
-```
-
-#### Get Single User
-
-Request: `PROTECTED` `GET` `/users/:id`
-
-Response:
-
-```json
-{
-  "status": "success",
-  "data": {
-    "user": {
-      "role": "Text",
-      "_id": "ObjectID",
-      "name": "Text",
-      "email": "Email",
-      "nid": "Text",
-      "phone": "Text",
-      "dateOfBirth": "Date",
-      "registered_at": "Date"
-    }
-  }
-}
-```
-
-### Profile
-
-#### Get User Profile
-
-Request: `PROTECTED` `GET` `/users/me`
-
-Response:
-
-```json
-{
-  "status": "success",
-  "data": {
-    "user": {
-      "role": "Text",
-      "_id": "ObjectID",
-      "name": "Text",
-      "email": "Email",
-      "nid": "Text",
-      "phone": "Text",
-      "dateOfBirth": "Date",
-      "registered_at": "Date"
-    }
-  }
-}
-```
-
-#### Update User Profile
-
-Request: `PROTECTED` `PUT` `/users/me`
+Request: `RESTRICTED (admin)` `POST` `/admin/createuser`
 
 Body:
 
 ```json
 {
-  "name": "Text",
-  "phone": "Text"
+  "name": "Text*",
+  "username": "Text*",
+  "email": "Email",
+  "password": "Text*",
+  "phone": "Text",
+  "role": "Text* -> admin/doctor/nurse/ward-monitor"
 }
 ```
 
@@ -221,35 +166,24 @@ Response:
   "status": "success",
   "data": {
     "user": {
-      "role": "Text",
       "_id": "ObjectID",
       "name": "Text",
+      "username": "Text",
       "email": "Email",
-      "nid": "Text",
       "phone": "Text",
-      "dateOfBirth": "Date",
+      "role": "Text",
+      "hospital": "ObjectID",
       "registered_at": "Date"
     }
   }
 }
 ```
 
-### Chambers
+### Wards from Admin Hospital
 
-#### Create Chamber
+#### Get Wards
 
-Request: `RESTRICTED( doctor )` `POST` `/chambers`
-
-Body:
-
-```json
-{
-  "name": "Text",
-  "city": "Text",
-  "contact": "Text",
-  "weekdays": ["Bool", "Bool", "Bool", "Bool", "Bool", "Bool", "Bool"]
-}
-```
+Request: `RESTRICTED (admin)` `GET` `/wards`
 
 Response:
 
@@ -257,45 +191,30 @@ Response:
 {
   "status": "success",
   "data": {
-    "chamber": {
-      "_id": "ObjectID",
-      "weekdays": ["Bool", "Bool", "Bool", "Bool", "Bool", "Bool", "Bool"],
-      "name": "Text",
-      "city": "Text",
-      "contact": "Text",
-      "doctor": "ObjectID"
-    }
-  }
-}
-```
-
-#### Get All Chambers
-
-Request: `Protected` `GET` `/chambers`
-
-Response:
-
-```json
-{
-  "status": "success",
-  "data": {
-    "chambers": [
+    "wards": [
       {
         "_id": "ObjectID",
-        "weekdays": ["Bool", "Bool", "Bool", "Bool", "Bool", "Bool", "Bool"],
         "name": "Text",
-        "city": "Text",
-        "contact": "Text",
-        "doctor": "ObjectID"
+        "bedCount": "Number",
+        "hospital": "ObjectID"
       }
     ]
   }
 }
 ```
 
-#### Get All Chambers From A city
+#### Create Ward
 
-Request: `Protected` `GET` `/chambers/city/:city`
+Request: `RESTRICTED (admin)` `POST` `/wards`
+
+Body:
+
+```json
+{
+  "name": "Text*",
+  "bedCount": "Number*"
+}
+```
 
 Response:
 
@@ -303,34 +222,107 @@ Response:
 {
   "status": "success",
   "data": {
-    "chambers": [
+    "ward": {
+      "_id": "ObjectID",
+      "name": "Text",
+      "bedCount": "Number",
+      "hospital": "ObjectID"
+    }
+  }
+}
+```
+
+#### Get Single Ward
+
+Request: `RESTRICTED (admin)` `GET` `/wards/:id`
+
+Response:
+
+```json
+{
+  "status": "success",
+  "data": {
+    "wards": {
+      "_id": "ObjectID",
+      "name": "Text",
+      "bedCount": "Number",
+      "hospital": "ObjectID"
+    }
+  }
+}
+```
+
+#### Update Ward
+
+Request: `RESTRICTED (admin)` `PUT` `/wards/:id`
+
+Body:
+
+```json
+{
+  "name": "Text*",
+  "bedCount": "Number*"
+}
+```
+
+Response:
+
+```json
+{
+  "status": "success",
+  "data": {
+    "ward": {
+      "_id": "ObjectID",
+      "name": "Text",
+      "bedCount": "Number",
+      "hospital": "ObjectID"
+    }
+  }
+}
+```
+
+### Patients from Ward
+
+#### Get Patients
+
+Request: `RESTRICTED (doctor, nurse, ward-monitor)` `GET` `/patients`
+
+Response:
+
+```json
+{
+  "status": "success",
+  "data": {
+    "patients": [
       {
+        "admitDate": "Date",
+        "releaseDate": "Date",
         "_id": "ObjectID",
-        "weekdays": ["Bool", "Bool", "Bool", "Bool", "Bool", "Bool", "Bool"],
         "name": "Text",
-        "city": "Text",
-        "contact": "Text",
-        "doctor": "ObjectID"
+        "age": "Number",
+        "disease": "Text",
+        "hospital": "ObjectID",
+        "ward": "ObjectID",
+        "bed": "Text",
+        "medics": [{ "name": "Text", "frequency": ["Number"], "note": "Text" }]
       }
     ]
   }
 }
 ```
 
-### Appointments
+#### Admit Patient
 
-#### Create Appointment
-
-Request: `RESTRICTED( patient )` `POST` `/appointments`
+Request: `RESTRICTED (ward-monitor)` `POST` `/patients`
 
 Body:
 
 ```json
 {
-  "disease": "Text",
-  "date": "Date (2020-11-14)",
-  "doctor": "ObjectID",
-  "chamber": "ObjectID",
+  "name": "Text*",
+  "age": "Number*",
+  "disease": "Text*",
+  "bed": "Text*",
   "note": "Text"
 }
 ```
@@ -341,47 +333,25 @@ Response:
 {
   "status": "success",
   "data": {
-    "appointment": {
+    "patients": {
+      "admitDate": "Date",
+      "releaseDate": "Date",
       "_id": "ObjectID",
+      "name": "Text",
+      "age": "Number",
       "disease": "Text",
-      "date": "Date",
-      "doctor": "ObjectID",
-      "chamber": "ObjectID",
-      "note": "Text",
-      "patient": "ObjectID"
+      "hospital": "ObjectID",
+      "ward": "ObjectID",
+      "bed": "Text",
+      "medics": [{ "name": "Text", "frequency": ["Number"], "note": "Text" }]
     }
   }
 }
 ```
 
-#### Get All Appointments
+#### Get Single Patient
 
-Request: `PROTECTED` `GET` `/appointments`
-
-Response:
-
-```json
-{
-  "status": "success",
-  "data": {
-    "appointments": [
-      {
-        "_id": "ObjectID",
-        "disease": "Text",
-        "date": "Date",
-        "doctor": "ObjectID",
-        "chamber": "ObjectID",
-        "note": "Text",
-        "patient": "ObjectID"
-      }
-    ]
-  }
-}
-```
-
-#### Get My Appointments
-
-Request: `RESTRICTED (doctor, patient)` `GET` `/appointments/my`
+Request: `RESTRICTED (doctor, nurse, ward-monitor)` `GET` `/patients/:id`
 
 Response:
 
@@ -389,39 +359,17 @@ Response:
 {
   "status": "success",
   "data": {
-    "appointments": [
-      {
-        "_id": "ObjectID",
-        "disease": "Text",
-        "date": "Date",
-        "doctor": "DoctorModel",
-        "chamber": "ChamberModel",
-        "note": "Text",
-        "patient": "PatientModel"
-      }
-    ]
-  }
-}
-```
-
-#### Get Single Appointment
-
-Request: `PROTECTED` `GET` `/appointments/:id`
-
-Response:
-
-```json
-{
-  "status": "success",
-  "data": {
-    "appointment": {
+    "patients": {
+      "admitDate": "Date",
+      "releaseDate": "Date",
       "_id": "ObjectID",
+      "name": "Text",
+      "age": "Number",
       "disease": "Text",
-      "date": "Date",
-      "doctor": "DoctorModel",
-      "chamber": "ChamberModel",
-      "note": "Text",
-      "patient": "PatientModel"
+      "hospital": "ObjectID",
+      "ward": "ObjectID",
+      "bed": "Text",
+      "medics": [{ "name": "Text", "frequency": ["Number"], "note": "Text" }]
     }
   }
 }
