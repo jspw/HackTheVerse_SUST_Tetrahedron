@@ -56,10 +56,10 @@ const login = catchAsync(async (req, res, next) => {
 
 const createUser = catchAsync(async (req, res, next) => {
   const { name, username, email, password, phone, role, ward } = req.body;
-  lowerUname = str(username).toLowerCase();
+  if (!username) return next(new AppError('Invalid body structure', 400));
   const newUser = new UserModel({
     name,
-    username: lowerUname,
+    username: username.toLowerCase(),
     email,
     password,
     phone,
