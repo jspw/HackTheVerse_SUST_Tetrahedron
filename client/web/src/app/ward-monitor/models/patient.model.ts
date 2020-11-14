@@ -6,3 +6,11 @@ export interface PatientData {
     pulse: string,
     primary_disease: string
 }
+
+export interface PatientAdmitData {
+    name: string,
+    age: number,
+    disease: string,
+    bed: string,
+    note: string
+}

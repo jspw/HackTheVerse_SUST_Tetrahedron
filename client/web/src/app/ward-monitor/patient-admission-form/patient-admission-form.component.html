@@ -1,0 +1,53 @@
+<mat-card class="p-5 mt-3">
+    <form [formGroup]="patientAdmissionForm" (ngSubmit)="onSubmit()">
+        
+        <mat-form-field appearance="legacy" class="w-100">
+            <mat-label>Name</mat-label>
+            <input matInput [formControlName]="'name'">
+            <mat-error *ngIf="patientAdmissionForm.get('name').hasError('required')">
+                Required
+            </mat-error>
+        </mat-form-field>
+        <br>
+
+        <mat-form-field appearance="legacy" class="w-100">
+            <mat-label>Age:</mat-label>
+            <input matInput [formControlName]="'age'">
+            <mat-error *ngIf="patientAdmissionForm.get('age').hasError('required')">
+                Required
+            </mat-error>
+        </mat-form-field>
+        <br>
+
+        <mat-form-field appearance="legacy" class="w-100">
+            <mat-label>Write your Disease</mat-label>
+            <input matInput [formControlName]="'disease'">
+            <mat-error *ngIf="patientAdmissionForm.get('disease').hasError('required')">
+                Required
+            </mat-error>
+        </mat-form-field>
+        <br>
+
+        <mat-form-field appearance="legacy" class="w-100">
+            <mat-label>Bed No</mat-label>
+            <input matInput [formControlName]="'bed'">
+            <mat-error *ngIf="patientAdmissionForm.get('bed').hasError('required')">
+                Required
+            </mat-error>
+        </mat-form-field>
+        <br>
+
+        <mat-form-field appearance="legacy" class="w-100">
+            <mat-label>Instructions</mat-label>
+            <textarea matInput [formControlName]="'note'" rows="10"></textarea>
+            <mat-error *ngIf="patientAdmissionForm.get('note').hasError('required')">
+                Please Write The Details
+            </mat-error>
+        </mat-form-field>
+        <br>
+
+        <button type="submit" mat-raised-button color="primary" [disabled]="patientAdmissionForm.invalid">
+            Submit
+        </button>
+    </form>
+</mat-card>

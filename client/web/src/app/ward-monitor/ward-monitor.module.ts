@@ -7,18 +7,23 @@ import { WardMonitorDashboardComponent } from './ward-monitor-dashboard/ward-mon
 import { MaterialModule } from '../material.module';
 import { PatientStatusTableComponent } from './ward-monitor-dashboard/patient-status-table/patient-status-table.component';
 import { DataVisualizationComponent } from './data-visualization/data-visualization.component';
-import { PatientAdmissionComponent } from './ward-monitor-dashboard/patient-admission/patient-admission.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { PatientAdmissionFormComponent } from './patient-admission-form/patient-admission-form.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     WardMonitorComponent, 
     WardMonitorDashboardComponent, 
-    PatientStatusTableComponent, DataVisualizationComponent, PatientAdmissionComponent
+    PatientStatusTableComponent, 
+    DataVisualizationComponent, PatientAdmissionFormComponent,
   ],
   imports: [
     CommonModule,
     WardMonitorRoutingModule,
-    MaterialModule
+    ReactiveFormsModule,
+    HttpClientModule,
+    MaterialModule,
   ]
 })
 export class WardMonitorModule { }
