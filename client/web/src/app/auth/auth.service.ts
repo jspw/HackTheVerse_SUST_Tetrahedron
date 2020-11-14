@@ -1,32 +1,42 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http'
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, take, tap } from 'rxjs/operators';
 import { throwError, BehaviorSubject } from 'rxjs';
 
-import { User } from "./user.model";
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { User } from './models/user.model';
 
 export interface Credentials {
-  email: string
+  username: string
   password: string
 }
 
 export interface AuthResponseData {
-  token: {
-    id: string
-    expiresIn: number
+  status: string
+  jwt: {
+    token: string
+    expiresIn: string
   }
   data: {
     user: {
-      role: string,
       _id: string,
       name: string,
+      username: string,
       email: string,
-      nid: string,
       phone: string,
-      dateOfBirth: string
+      role: string,
+      hospital: string
       registered_at: string,
+      __v: number
+    },
+    hospital: {
+      verified: boolean,
+      _id: string,
+      name: string,
+      address: string
+      verificationDataURL: string
+      __v: number
     }
   }
 }
@@ -42,32 +52,52 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) { }
 
   signUp(credentials: Credentials) {
-    return this.http
-      .post<AuthResponseData>(`${this.baseURL}/users`, credentials)
-      .pipe(
-        tap(
-          res => {
-            console.log(res);
+    // return this.http
+    //   .post<AuthResponseData>(`${this.baseURL}/admin/register`, credentials)
+    //   .pipe(
+    //     tap(
+    //       res => {
+    //         console.log(res);
 
-            // this.handleAuthenticatedUser(res.user.email, res.user._id, res.user.createdAt, res.user.updatedAt, res.token.id, res.token.expiresIn)
-          }
-        ),
-        catchError(this.handleError)
-      )
+    //         this.handleAuthenticatedUser(
+    //           res.data.user._id,
+    //           res.data.user.name,
+    //           res.data.user.username,
+    //           res.data.user.email,
+    //           res.data.user.phone,
+    //           res.data.user.role,
+    //           res.data.user.hospital,
+    //           res.data.user.registered_at,
+    //           res.jwt.expiresIn,
+    //           res.jwt.token,
+    //           res.data.hospital
+    //         )
+    //       }
+    //     ),
+    //     catchError(this.handleError)
+    //   )
   }
 
   autoLogin() {
     const userData: {
-      name: string,
-      email: string,
       id: string,
-      nid: string,
-      phone: string
-      dateOfBirth: Date,
+      name: string,
+      username: string,
+      email: string,
+      phone: string,
+      role: string,
+      hospital: string,
       registered_at: Date,
-      role: string
+      _token: string,
       tokenExpirationDate: string,
-      _token: string
+      hospitalData?: {
+        verified: boolean,
+        _id: string,
+        name: string,
+        address: string
+        verificationDataURL: string
+        __v: number
+      }
     } = JSON.parse(localStorage.getItem('userData'))
 
     if (!userData) {
@@ -75,35 +105,62 @@ export class AuthService {
     }
 
     const loadedUser = new User(
-      userData.name,
-      userData.email,
       userData.id,
-      userData.nid,
+      userData.name,
+      userData.username,
+      userData.email,
       userData.phone,
-      new Date(userData.dateOfBirth),
-      userData.registered_at,
       userData.role,
+      userData.hospital,
+      userData.registered_at,
       userData._token,
-      new Date(userData.tokenExpirationDate)
+      new Date(userData.tokenExpirationDate),
+      userData.hospitalData
     )
+    // const loadedUser = new User(
+    //   userData.name,
+    //   userData.email,
+    //   userData.id,
+    //   userData.phone,
+    //   userData.registered_at,
+    //   userData.role,
+    //   userData._token,
+    //   new Date(userData.tokenExpirationDate)
+    // )
 
     if (loadedUser.token) {
       this.user.next(loadedUser)
 
       const tokenExpirationTimer = new Date(userData.tokenExpirationDate).getTime() - new Date().getTime()
+      console.log(tokenExpirationTimer);
+
       this.autoLogout(tokenExpirationTimer)
+      this.handleAuthenticatedUserNavigation(loadedUser)
     }
 
   }
 
   logIn(credentials: Credentials) {
     return this.http
-      .post<AuthResponseData>(`${this.baseURL}/users/login`, credentials)
+      .post<AuthResponseData>(`${this.baseURL}/admin/login`, credentials)
       .pipe(
         tap(
           res => {
             console.log(res);
 
+            this.handleAuthenticatedUser(
+              res.data.user._id,
+              res.data.user.name,
+              res.data.user.username,
+              res.data.user.email,
+              res.data.user.phone,
+              res.data.user.role,
+              res.data.user.hospital,
+              res.data.user.registered_at,
+              res.jwt.expiresIn,
+              res.jwt.token,
+              res.data.hospital
+            )
             // this.handleAuthenticatedUser(res.user.email, res.user._id, res.user.createdAt, res.user.updatedAt, res.token.id, res.token.expiresIn)
           }
         ),
@@ -112,18 +169,14 @@ export class AuthService {
   }
 
   logout() {
-    this.http.post(`${this.baseURL}/users/logout`, {}).subscribe(
-      (response) => {
-        this.user.next(null)
-        this.router.navigate(['/auth'])
-        localStorage.removeItem('userData')
-        if (this.tokenExpirationTimer) {
-          clearTimeout(this.tokenExpirationTimer)
-        }
-        this.tokenExpirationTimer = null
-      },
-      error => console.log(error)
-    )
+    this.user.next(null)
+    this.router.navigate(['/auth'])
+    localStorage.removeItem('userData')
+    if (this.tokenExpirationTimer) {
+      clearTimeout(this.tokenExpirationTimer)
+    }
+    this.tokenExpirationTimer = null
+
   }
 
   autoLogout(tokenExpirationDuration: number) {
@@ -135,27 +188,56 @@ export class AuthService {
   }
 
   private handleAuthenticatedUser(
-    role: string,
-    userId: string,
+    id: string,
     name: string,
+    username: string,
     email: string,
-    nid: string,
     phone: string,
-    dateOfBirth_at: string,
+    role: string,
+    hospital: string,
     registered_time: string,
-    tokenId: string,
-    expiresIn: number
+    expiresIn: string,
+    _token: string = null,
+    hospitalData: {
+      verified: boolean,
+      _id: string,
+      name: string,
+      address: string,
+      verificationDataURL: string
+    } = null
   ) {
-    const expirationDate = new Date(new Date().getTime() + expiresIn)
+    const expirationDate = new Date(new Date().getTime() + parseInt(expiresIn))
+    console.log(expirationDate);
+
     const registered_at = new Date(registered_time)
-    const dateOfBirth = new Date(dateOfBirth_at)
-    const user = new User(name, email, userId,nid,phone,dateOfBirth, registered_at,role, tokenId, expirationDate)
+    const user = new User(
+      id,
+      name,
+      username,
+      email,
+      phone,
+      role,
+      hospital,
+      registered_at,
+      _token,
+      expirationDate,
+      hospitalData
+    )
     // const user = new User(email, userId, registered_at, lastEditedAt, tokenId, expirationDate)
 
     localStorage.setItem('userData', JSON.stringify(user))
-    this.autoLogout(expiresIn)
+    this.autoLogout(parseInt(expiresIn))
 
     this.user.next(user)
+    this.handleAuthenticatedUserNavigation(user)
+  }
+
+  private handleAuthenticatedUserNavigation(authUser: User) {
+    if (authUser) {
+      if (authUser.isAdmin) {
+        this.router.navigate(['admin'])
+      }
+    }
   }
 
   private handleError(error: HttpErrorResponse) {

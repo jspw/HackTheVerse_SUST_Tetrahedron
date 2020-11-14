@@ -30,7 +30,7 @@ const getSingleWard = catchAsync(async (req, res, next) => {
   const hospital = req.user.hospital;
   const ward = await WardModel.findOne({ _id: req.params.id, hospital });
   if (!ward)
-    return new AppError('The ward is not found in your hospital.', 404);
+    return next(new AppError('The ward is not found in your hospital.', 404));
 
   res.status(200).json({
     status: 'success',
@@ -45,7 +45,7 @@ const updateWard = catchAsync(async (req, res, next) => {
     hospital,
   });
   if (!selectedWard)
-    return new AppError('The ward is not found in your hospital.', 404);
+    return next(new AppError('The ward is not found in your hospital.', 404));
   const name = req.body.name || selectedWard.name;
   const bedCount = req.body.bedCount || selectedWard.bedCount;
   const ward = await WardModel.findByIdAndUpdate(

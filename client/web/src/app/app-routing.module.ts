@@ -6,7 +6,11 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: '/auth'
+    redirectTo: '/auth/login'
+  },
+  {
+    path: 'auth',
+    redirectTo: '/auth/login'
   },
   {
     path: 'auth',
@@ -27,7 +31,11 @@ const routes: Routes = [
   {
     path: 'admin',
     loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
-  }
+  },
+  {
+    path: 'nurse',
+    loadChildren: () => import('./nurse/nurse.module').then(m => m.NurseModule)
+  },
 ];
 
 @NgModule({

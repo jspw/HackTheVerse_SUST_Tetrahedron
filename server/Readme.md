@@ -155,7 +155,8 @@ Body:
   "email": "Email",
   "password": "Text*",
   "phone": "Text",
-  "role": "Text* -> admin/doctor/nurse/ward-monitor"
+  "role": "Text* -> admin/doctor/nurse/ward-monitor",
+  "ward": "ObjectID* -> Ward"
 }
 ```
 
@@ -371,6 +372,89 @@ Response:
       "bed": "Text",
       "medics": [{ "name": "Text", "frequency": ["Number"], "note": "Text" }]
     }
+  }
+}
+```
+
+### Users from Hospital or Ward
+
+#### Get All Ward Monitors
+
+Request: `RESTRICTED (admin)` `GET` `/users/ward-monitors`
+
+Response:
+
+```json
+{
+  "status": "success",
+  "data": {
+    "wardMonitors": [
+      {
+        "_id": "ObjectID",
+        "name": "Text",
+        "username": "Text",
+        "email": "Email",
+        "phone": "Text",
+        "role": "Text",
+        "hospital": "ObjectID",
+        "ward": "ObjectID",
+        "registered_at": "Date"
+      }
+    ]
+  }
+}
+```
+
+#### Get All Doctors
+
+Request: `RESTRICTED (admin, ward-monitor, doctor, nurse)` `GET` `/users/doctors`
+
+Response:
+
+```json
+{
+  "status": "success",
+  "data": {
+    "doctors": [
+      {
+        "_id": "ObjectID",
+        "name": "Text",
+        "username": "Text",
+        "email": "Email",
+        "phone": "Text",
+        "role": "Text",
+        "hospital": "ObjectID",
+        "ward": "ObjectID",
+        "registered_at": "Date"
+      }
+    ]
+  }
+}
+```
+
+#### Get All Nurses
+
+Request: `RESTRICTED (admin, ward-monitor, doctor, nurse)` `GET` `/users/nurses`
+
+Response:
+
+```json
+{
+  "status": "success",
+  "data": {
+    "nurses": [
+      {
+        "_id": "ObjectID",
+        "name": "Text",
+        "username": "Text",
+        "email": "Email",
+        "phone": "Text",
+        "role": "Text",
+        "hospital": "ObjectID",
+        "ward": "ObjectID",
+        "registered_at": "Date"
+      }
+    ]
   }
 }
 ```
