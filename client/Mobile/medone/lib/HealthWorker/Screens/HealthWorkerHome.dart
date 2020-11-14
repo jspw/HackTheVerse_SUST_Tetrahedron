@@ -16,8 +16,12 @@ class HealthWorkerHomeState extends State {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    // throw UnimplementedError();
+
+    final routeArgs =
+        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+
+    var UserInfo = routeArgs['UserInfo'];
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -85,7 +89,7 @@ class HealthWorkerHomeState extends State {
           physics: ScrollPhysics(),
         ),
       ),
-      drawer: CustomDrawer("Amina Begum", "Nurse", "hash", "http"),
+      drawer: CustomDrawer(UserInfo["name"], UserInfo["role"], "hash", "http"),
     );
   }
 }

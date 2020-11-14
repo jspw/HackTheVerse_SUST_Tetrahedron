@@ -8,11 +8,11 @@ class PatientProfile extends StatefulWidget {
   State<StatefulWidget> createState() {
     // TODO: implement createState
     // throw UnimplementedError();
-    return PatientProfileState();
+    return PatientProfilState();
   }
 }
 
-class PatientProfileState extends State {
+class PatientProfilState extends State {
   bool showPatientInfo = false;
   bool showPatientHealthInfo = true;
 

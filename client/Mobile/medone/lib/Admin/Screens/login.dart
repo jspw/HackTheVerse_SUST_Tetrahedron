@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -25,28 +24,22 @@ class Login extends StatefulWidget {
 }
 
 class LoginState extends State {
-  final String apiUrl = "https://cc0d906a8f3c.ngrok.io/";
-  TextEditingController _emailController, _passwordController;
+  final String apiUrl = ApiUrl.url;
+  TextEditingController _usernameController, _passwordController;
   bool _rembermeValue = false;
 
   final _formKey = GlobalKey<FormState>();
-
-  bool invalidEmainOrPass = false;
-
-  bool doctor = true;
-  bool patient = false;
-  bool pharmacist = false;
 
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void initState() {
     super.initState();
-    _emailController = TextEditingController();
+    _usernameController = TextEditingController();
     _passwordController = TextEditingController();
   }
 
   void dispose() {
-    _emailController.dispose();
+    _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -57,7 +50,7 @@ class LoginState extends State {
         alignment: Alignment.center,
         height: 50,
         child: Text(
-          'Invalid email or password',
+          'Invalid username or password',
           style: TextStyle(
             fontSize: 20,
             color: Colors.white,
@@ -70,42 +63,26 @@ class LoginState extends State {
   }
 
   Future<Map<String, dynamic>> loginRequest(
-      String email, String password) async {
+      String username, String password) async {
     final http.Response response = await http.post(
-      apiUrl + 'users/login',
+      apiUrl + 'admin/login',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{"email": email, "password": password}),
+      body: jsonEncode(<String, String>{"username": username, "password": password}),
     );
 
     // print(jsonDecode(response.body));
     return jsonDecode(response.body);
   }
 
-  // Future<Map<String, dynamic>> UserInfo(var id, String token) async {
-  //   final http.Response response = await http.get(
-  //     apiUrl + 'users/' + id,
-  //     headers: {
-  //       "Accept": "application/json",
-  //       "Content-type": "application/json",
-  //       // "authorization": "$token"
-  //       HttpHeaders.authorizationHeader: "Bearer $token",
-  //       // "authorization": "Bearer $token"
-  //     },
-  //   );
-
-  //   // print(token);
-  //   return jsonDecode(response.body);
-  // }
-
   checkTokenAlreadySaved(String token) {}
 
   storeTokenLocally(String token) {}
 
-  Future<void> getData(String email, String password) async {
+  Future<void> getData(String username, String password) async {
     print('Awaiting user ...');
-    var info = await loginRequest(email, password);
+    var info = await loginRequest(username, password);
     print(info);
     if (info["status"] == "success") {
       var id = info["data"]["user"]["_id"];
@@ -114,13 +91,13 @@ class LoginState extends State {
       if (info["data"]["user"]["role"] == "doctor") {
         Navigator.pushNamed(context, DoctorHome.route,
             arguments: {"UserInfo": info["data"]["user"]});
-      } else if (info["data"]["user"]["role"] == "patient") {
-        Navigator.pushNamed(context, PatientHome.route,
+      } else if (info["data"]["user"]["role"] == "nurse") {
+        Navigator.pushNamed(context, HealthWorkerHome.route,
             arguments: {"UserInfo": info["data"]["user"]});
       }
     } else {
       invalidLoginMessage(context);
-      _emailController.clear();
+      _usernameController.clear();
       _passwordController.clear();
     }
 
@@ -169,13 +146,13 @@ class LoginState extends State {
                     child: TextFormField(
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'Please enter an Email address';
+                          return 'Please enter an username address';
                         }
                         // else if (this.invalidEmainOrPass)
-                        //   return "Email or Password invalid!";
+                        //   return "username or Password invalid!";
                         return null;
                       },
-                      controller: _emailController,
+                      controller: _usernameController,
                       style: TextStyle(
                         color: Colors.black,
                         fontStyle: FontStyle.normal,
@@ -184,10 +161,10 @@ class LoginState extends State {
                       ),
                       decoration: InputDecoration(
                         suffixIcon: Icon(
-                          Icons.email,
+                          Icons.person,
                           color: Colors.black,
                         ),
-                        labelText: "Email",
+                        labelText: "username",
                         border: new OutlineInputBorder(
                           borderRadius: BorderRadius.circular(0.0),
                         ),
@@ -207,7 +184,7 @@ class LoginState extends State {
                           return 'Please enter an your password';
                         }
                         //  else if (this.invalidEmainOrPass)
-                        //   return "Email or Password invalid!";
+                        //   return "username or Password invalid!";
                         return null;
                       },
                       obscureText: true,
@@ -282,13 +259,13 @@ class LoginState extends State {
                   //         ? Navigator.pushNamed(context, "doctor-route")
                   //         : Navigator.pushNamed(context, "pharmacy-route");
 
-                  // print(_emailController.text);
+                  // print(_usernameController.text);
                   // Navigator.pushNamed(context, "doctor-route");
-                  // if (_emailController.text == "" ||
+                  // if (_usernameController.text == "" ||
                   //     _passwordController.text == "") {
                   //   final snackBar = SnackBar(
                   //     content: Text(
-                  //       'Invalid email or password',
+                  //       'Invalid username or password',
                   //       style: TextStyle(
                   //         color: Colors.white,
                   //       ),
@@ -299,7 +276,7 @@ class LoginState extends State {
                   //   print("Empty");
                   // } else
                   if (_formKey.currentState.validate())
-                    getData(_emailController.text, _passwordController.text);
+                    getData(_usernameController.text, _passwordController.text);
                 },
                 child: Text(
                   "Login",
