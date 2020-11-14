@@ -35,7 +35,24 @@
             <div class="row">
                 <div class="col-12">
                     <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 ">
+
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 ">
+                            <mat-card>
+                                <mat-card-header>
+                                    <div mat-card-avatar>
+                                        <img src="https://w7.pngwing.com/pngs/452/997/png-transparent-computer-icons-patient-others-text-logo-medical-thumbnail.png"
+                                         alt="Heart" class="img-fluid">
+                                    </div>
+                                    <mat-card-title>Admit Patient</mat-card-title>
+                                    <mat-card-subtitle style="color: green; font-size: large;" class="font-weight-bold">
+                                        20
+                                    </mat-card-subtitle>
+                                    <button mat-raised-button color='primary' [routerLink]="['admit-patient']">Here</button>
+                                </mat-card-header>
+                            </mat-card>
+                        </div>
+
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 ">
                             <mat-card>
                                 <mat-card-header>
                                     <div mat-card-avatar>
@@ -49,7 +66,7 @@
                                 </mat-card-header>
                             </mat-card>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                             <mat-card>
                                 <mat-card-header>
                                     <div mat-card-avatar>
@@ -63,7 +80,7 @@
                                 </mat-card-header>
                             </mat-card>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                             <mat-card>
                                 <mat-card-header>
                                     <div mat-card-avatar>
@@ -109,7 +126,6 @@
                     </div>
                     
                     <app-patient-status-table></app-patient-status-table>
-                    <app-patient-admission-form></app-patient-admission-form>
                     <br><br>
                 </div>
             </div>
