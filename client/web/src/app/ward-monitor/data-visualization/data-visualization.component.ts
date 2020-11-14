@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Chart} from 'chart.js';
+import * as Chart from 'chart.js';
 @Component({
   selector: 'app-data-visualization',
   templateUrl: './data-visualization.component.html',
