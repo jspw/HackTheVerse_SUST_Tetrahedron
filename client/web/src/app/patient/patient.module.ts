@@ -9,6 +9,9 @@ import { AppointmentFormComponent } from './appointment-form/appointment-form.co
 import { AppointmentHomeComponent } from './appointment-home/appointment-home.component';
 import { MedicalTimelineComponent } from './medical-timeline/medical-timeline.component';
 import { MedicationCardComponent } from './medication-card/medication-card.component';
+import {AgmCoreModule} from '@agm/core';
+import { DataVisualizationHorizontalBarComponent } from './data-visualization-horizontal-bar/data-visualization-horizontal-bar.component';
+
 
 @NgModule({
   declarations: [
@@ -17,12 +20,13 @@ import { MedicationCardComponent } from './medication-card/medication-card.compo
     AppointmentHomeComponent,
     MedicalTimelineComponent,
     MedicationCardComponent,
+    DataVisualizationHorizontalBarComponent,
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     PatientRoutingModule,
-    MaterialModule
+    MaterialModule,
   ]
 })
 export class PatientModule { }
