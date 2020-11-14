@@ -43,10 +43,12 @@ const patientSchema = new Schema({
   hospital: {
     type: Schema.Types.ObjectId,
     ref: 'Hospital',
+    required: [true, 'Hospital is required'],
   },
   ward: {
     type: Schema.Types.ObjectId,
     ref: 'Ward',
+    required: [true, 'Ward is required'],
   },
   bed: {
     type: String,
