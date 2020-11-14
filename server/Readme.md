@@ -155,7 +155,8 @@ Body:
   "email": "Email",
   "password": "Text*",
   "phone": "Text",
-  "role": "Text* -> admin/doctor/nurse/ward-monitor"
+  "role": "Text* -> admin/doctor/nurse/ward-monitor",
+  "ward": "ObjectID* -> Ward"
 }
 ```
 
