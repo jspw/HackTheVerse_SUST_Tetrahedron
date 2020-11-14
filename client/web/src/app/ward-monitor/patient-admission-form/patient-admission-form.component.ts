@@ -9,7 +9,6 @@ import { WardMonitorService } from '../ward-monitor.service';
 })
 export class PatientAdmissionFormComponent implements OnInit {
   patientAdmissionForm: FormGroup
-  
 
   constructor(private wardMonitorService: WardMonitorService) { }
 
@@ -23,13 +22,28 @@ export class PatientAdmissionFormComponent implements OnInit {
     let disease = '';
     let bed = '';
     let note = '';
+    let medicineDetails = new FormArray([])
+
     this.patientAdmissionForm = new FormGroup({
       name: new FormControl(name, [Validators.required]),
       age: new FormControl(age, [Validators.required]),
       disease: new FormControl(disease, [Validators.required]),
       bed: new FormControl(bed, [Validators.required]),
       note: new FormControl(note, [Validators.required]),
+      medicines: medicineDetails
     })
+  }
+
+  onAddMedicine() {
+    (<FormArray>this.patientAdmissionForm.get('medicines')).push(new FormGroup({
+      name: new FormControl(null, Validators.required),
+      // frequency: new FormArray(null, Validators.required),
+      note: new FormControl(null, Validators.required),
+    }))
+  }
+
+  onDeleteMedicine(index: number) {
+    (<FormArray>this.patientAdmissionForm.get('medicines')).removeAt(+index)
   }
 
   onSubmit() {
