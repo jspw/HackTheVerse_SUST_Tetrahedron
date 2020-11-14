@@ -49,6 +49,10 @@ const userSchema = new Schema({
     enum: ['admin', 'doctor', 'nurse', 'ward-monitor'],
     required: [true, 'A user must have a role'],
   },
+  ward: {
+    type: Schema.Types.ObjectId,
+    ref: 'Ward',
+  },
 });
 
 // Encrypt the password
