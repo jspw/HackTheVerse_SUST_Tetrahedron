@@ -176,15 +176,16 @@ export class AuthService {
       clearTimeout(this.tokenExpirationTimer)
     }
     this.tokenExpirationTimer = null
-
   }
 
   autoLogout(tokenExpirationDuration: number) {
-    console.log(tokenExpirationDuration);
-
-    this.tokenExpirationTimer = setTimeout(() => {
-      this.logout()
-    }, tokenExpirationDuration)
+    
+    // this.tokenExpirationTimer = setTimeout(() => {
+    //   console.log('hit');
+    //   console.log(tokenExpirationDuration);
+      
+    //   this.logout()
+    // }, tokenExpirationDuration)
   }
 
   private handleAuthenticatedUser(
@@ -235,7 +236,11 @@ export class AuthService {
   private handleAuthenticatedUserNavigation(authUser: User) {
     if (authUser) {
       if (authUser.isAdmin) {
-        this.router.navigate(['admin'])
+        this.router.navigate(['/admin'])
+      }
+
+      if (authUser.isWardMonitor) {
+        this.router.navigate(['/ward-monitor'])
       }
     }
   }
