@@ -17,8 +17,17 @@ const getPatients = catchAsync(async (req, res, next) => {
 
 const createPatient = catchAsync(async (req, res, next) => {
   const { hospital, ward } = req.user;
-  console.log(ward);
   const { name, age, disease, bed, note } = req.body;
+
+  const patientInBed = await PatientModel.find({
+    hospital,
+    ward,
+    released: false,
+    bed,
+  });
+
+  if (patientInBed.length > 0)
+    return next(new AppError("There's a patient in that bed", 400));
 
   const newPatient = new PatientModel({
     name,
