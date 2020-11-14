@@ -4,10 +4,27 @@ const PatientModel = require('../models/PatientModel');
 const WardModel = require('../models/WardModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
+const redis = require('redis');
+const { promisify } = require('util');
+const sensors = require('../dataGenerator/sensors');
+
+const client = redis.createClient();
+const lrangeAsync = promisify(client.lrange).bind(client);
 
 const getPatients = catchAsync(async (req, res, next) => {
   const { hospital, ward } = req.user;
-  const patients = await PatientModel.find({ hospital, ward });
+  const patients = await PatientModel.find({ hospital, ward }).lean();
+
+  // const patientWithStat = patients.map(patient => {
+  //   const sensorData = [];
+  //   sensors.map(async ({ name }) => {
+  //     const key = `${_id}:${name}:minute`;
+  //     const value = (await lrangeAsync(key, '0', '0'))[0];
+
+  //     sensorData.push({ name, value });
+  //   });
+  //   return { ...patient, sensorData };
+  // });
 
   res.status(200).json({
     status: 'success',
@@ -17,8 +34,17 @@ const getPatients = catchAsync(async (req, res, next) => {
 
 const createPatient = catchAsync(async (req, res, next) => {
   const { hospital, ward } = req.user;
-  console.log(ward);
   const { name, age, disease, bed, note } = req.body;
+
+  const patientInBed = await PatientModel.find({
+    hospital,
+    ward,
+    released: false,
+    bed,
+  });
+
+  if (patientInBed.length > 0)
+    return next(new AppError("There's a patient in that bed", 400));
 
   const newPatient = new PatientModel({
     name,
@@ -45,36 +71,13 @@ const getSinglePatient = catchAsync(async (req, res, next) => {
     ward,
   });
   if (!patient)
-    return new AppError('The patient is not found in your hospital.', 404);
+    return next(
+      new AppError('The patient is not found in your hospital.', 404),
+    );
 
   res.status(200).json({
     status: 'success',
     data: { patient },
-  });
-});
-
-const updateWard = catchAsync(async (req, res, next) => {
-  const hospital = req.user.hospital;
-  const selectedWard = await WardModel.findOne({
-    _id: req.params.id,
-    hospital,
-  });
-  if (!selectedWard)
-    return new AppError('The ward is not found in your hospital.', 404);
-  const name = req.body.name || selectedWard.name;
-  const bedCount = req.body.bedCount || selectedWard.bedCount;
-  const ward = await WardModel.findByIdAndUpdate(
-    req.params.id,
-    {
-      name,
-      bedCount,
-    },
-    { new: true },
-  );
-
-  res.status(200).json({
-    status: 'success',
-    data: { ward },
   });
 });
 

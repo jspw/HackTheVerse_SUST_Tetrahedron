@@ -11,6 +11,8 @@ const HospitalModel = require('../models/HospitalModel');
 // Function to sign up a user
 const register = catchAsync(async (req, res, next) => {
   const { admin, hospital } = req.body;
+  if (!hospital || !admin)
+    return next(new AppError('Invalid body structure', 400));
   const { hospitalName, address, verificationDataURL } = hospital;
   const newHospital = new HospitalModel({
     name: hospitalName,
@@ -53,7 +55,10 @@ const login = catchAsync(async (req, res, next) => {
 });
 
 const createUser = catchAsync(async (req, res, next) => {
+  const { hospital } = req.user;
   const { name, username, email, password, phone, role, ward } = req.body;
+  if (!username || !ward)
+    return next(new AppError('Invalid body structure', 400));
   const newUser = new UserModel({
     name,
     username: username.toLowerCase(),
@@ -61,7 +66,7 @@ const createUser = catchAsync(async (req, res, next) => {
     password,
     phone,
     role,
-    hospital: req.user.hospital,
+    hospital,
     ward,
   });
   const user = await newUser.save();

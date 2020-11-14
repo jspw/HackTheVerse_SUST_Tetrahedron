@@ -1,6 +1,7 @@
 'use strict';
 
 // Importing packages
+const generateAndStore = require('./dataGenerator/dataGenerator');
 const mongoose = require('mongoose');
 
 // Confuguring the environment variables
@@ -10,6 +11,7 @@ const HOST = process.env.HOST || 'localhost';
 
 // Database Connection
 const db = process.env.MONGO_URI;
+let connected = false;
 mongoose
   .connect(db, {
     useNewUrlParser: true,
@@ -18,7 +20,17 @@ mongoose
   })
   .then(() => {
     console.log('Connected to database');
+    connected = true;
   });
+
+// Calling the random data generator
+setInterval(() => {
+  if (connected) generateAndStore('second');
+}, 1000);
+
+setInterval(() => {
+  if (connected) generateAndStore('minute');
+}, 60000);
 
 // Importing the express app
 const app = require('./app');
@@ -29,7 +41,7 @@ const server = app.listen(PORT, HOST, () => {
 });
 
 // Handle Unhandled Rejections
-process.on('unhandledRejection', (err) => {
+process.on('unhandledRejection', err => {
   console.log('Unhandled Rejection! Shutting down the server...');
   console.error(err);
   server.close(() => {

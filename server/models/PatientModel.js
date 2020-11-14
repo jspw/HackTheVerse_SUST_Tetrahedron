@@ -61,6 +61,10 @@ const patientSchema = new Schema({
   releaseDate: {
     type: Date,
   },
+  released: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 // Creating model from a Schema
