@@ -39,7 +39,7 @@ class Routes {
   }
 
   static initScreen() {
-    // return Login.route;
-    return HealthWorkerHome.route;
+    return Login.route;
+    // return HealthWorkerHome.route;
   }
 }
