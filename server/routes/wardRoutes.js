@@ -1,6 +1,11 @@
 'use strict';
 
-const { getWards, createWard } = require('../controllers/wardController');
+const {
+  getWards,
+  createWard,
+  updateWard,
+  getSingleWard,
+} = require('../controllers/wardController');
 // Importing functions from the controller
 const { protect, restrictTo } = require('../middlewares/protect');
 
@@ -12,5 +17,9 @@ wardRouter
   .route('/')
   .get(protect, restrictTo('admin'), getWards)
   .post(protect, restrictTo('admin'), createWard);
+wardRouter
+  .route('/:id')
+  .get(protect, restrictTo('admin'), getSingleWard)
+  .put(protect, restrictTo('admin'), updateWard);
 
 module.exports = wardRouter;

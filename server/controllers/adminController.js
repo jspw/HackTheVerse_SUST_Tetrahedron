@@ -53,7 +53,7 @@ const login = catchAsync(async (req, res, next) => {
 });
 
 const createUser = catchAsync(async (req, res, next) => {
-  const { name, username, email, password, phone, role } = req.body;
+  const { name, username, email, password, phone, role, ward } = req.body;
   const newUser = new UserModel({
     name,
     username: username.toLowerCase(),
@@ -62,6 +62,7 @@ const createUser = catchAsync(async (req, res, next) => {
     phone,
     role,
     hospital: req.user.hospital,
+    ward,
   });
   const user = await newUser.save();
   user.password = undefined;
