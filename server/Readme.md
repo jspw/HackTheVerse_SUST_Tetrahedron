@@ -8,9 +8,15 @@
     - [Access A Protected or Restricted Route](#access-a-protected-or-restricted-route)
   - [Admin](#admin)
     - [Create User](#create-user)
-  - [Wards](#wards)
-    - [Get Wards from Admin's Hospital](#get-wards-from-admin-s-hospital)
-    - [Create Ward on Admin's Hospital](#create-ward-on-admin-s-hospital)
+  - [Wards from Admin Hospital](#wards-from-admin-hospital)
+    - [Get Wards](#get-wards)
+    - [Create Ward](#create-ward)
+    - [Get Single Ward](#get-single-ward)
+    - [Update Ward](#update-ward)
+  - [Patients from Ward](#patients-from-ward)
+    - [Get Patients](#get-patients)
+    - [Admit Patient](#admit-patient)
+    - [Get Single Patient](#get-single-patient)
 
 ## Start Server
 
@@ -173,9 +179,9 @@ Response:
 }
 ```
 
-### Wards
+### Wards from Admin Hospital
 
-#### Get Wards from Admin's Hospital
+#### Get Wards
 
 Request: `RESTRICTED (admin)` `GET` `/wards`
 
@@ -197,7 +203,7 @@ Response:
 }
 ```
 
-#### Create Ward on Admin's Hospital
+#### Create Ward
 
 Request: `RESTRICTED (admin)` `POST` `/wards`
 
@@ -221,6 +227,149 @@ Response:
       "name": "Text",
       "bedCount": "Number",
       "hospital": "ObjectID"
+    }
+  }
+}
+```
+
+#### Get Single Ward
+
+Request: `RESTRICTED (admin)` `GET` `/wards/:id`
+
+Response:
+
+```json
+{
+  "status": "success",
+  "data": {
+    "wards": {
+      "_id": "ObjectID",
+      "name": "Text",
+      "bedCount": "Number",
+      "hospital": "ObjectID"
+    }
+  }
+}
+```
+
+#### Update Ward
+
+Request: `RESTRICTED (admin)` `PUT` `/wards/:id`
+
+Body:
+
+```json
+{
+  "name": "Text*",
+  "bedCount": "Number*"
+}
+```
+
+Response:
+
+```json
+{
+  "status": "success",
+  "data": {
+    "ward": {
+      "_id": "ObjectID",
+      "name": "Text",
+      "bedCount": "Number",
+      "hospital": "ObjectID"
+    }
+  }
+}
+```
+
+### Patients from Ward
+
+#### Get Patients
+
+Request: `RESTRICTED (doctor, nurse, ward-monitor)` `GET` `/patients`
+
+Response:
+
+```json
+{
+  "status": "success",
+  "data": {
+    "patients": [
+      {
+        "admitDate": "Date",
+        "releaseDate": "Date",
+        "_id": "ObjectID",
+        "name": "Text",
+        "age": "Number",
+        "disease": "Text",
+        "hospital": "ObjectID",
+        "ward": "ObjectID",
+        "bed": "Text",
+        "medics": [{ "name": "Text", "frequency": ["Number"], "note": "Text" }]
+      }
+    ]
+  }
+}
+```
+
+#### Admit Patient
+
+Request: `RESTRICTED (ward-monitor)` `POST` `/patients`
+
+Body:
+
+```json
+{
+  "name": "Text*",
+  "age": "Number*",
+  "disease": "Text*",
+  "bed": "Text*",
+  "note": "Text"
+}
+```
+
+Response:
+
+```json
+{
+  "status": "success",
+  "data": {
+    "patients": {
+      "admitDate": "Date",
+      "releaseDate": "Date",
+      "_id": "ObjectID",
+      "name": "Text",
+      "age": "Number",
+      "disease": "Text",
+      "hospital": "ObjectID",
+      "ward": "ObjectID",
+      "bed": "Text",
+      "medics": [{ "name": "Text", "frequency": ["Number"], "note": "Text" }]
+    }
+  }
+}
+```
+
+#### Get Single Patient
+
+Request: `RESTRICTED (doctor, nurse, ward-monitor)` `GET` `/patients/:id`
+
+Response:
+
+```json
+{
+  "status": "success",
+  "data": {
+    "patients": {
+      "admitDate": "Date",
+      "releaseDate": "Date",
+      "_id": "ObjectID",
+      "name": "Text",
+      "age": "Number",
+      "disease": "Text",
+      "hospital": "ObjectID",
+      "ward": "ObjectID",
+      "bed": "Text",
+      "medics": [{ "name": "Text", "frequency": ["Number"], "note": "Text" }]
     }
   }
 }

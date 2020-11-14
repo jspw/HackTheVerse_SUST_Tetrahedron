@@ -84,79 +84,88 @@ class CustomDrawer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-            padding: const EdgeInsets.all(10.0),
-            // height: 220.0,
-            width: MediaQuery.of(context).size.width,
-            color: Colors.indigo[200],
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  width: 100.0,
-                  height: 100.0,
-                  decoration: new BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(color: Colors.white, spreadRadius: 3),
-                    ],
-                    borderRadius: BorderRadius.circular(10.0),
-                    image: DecorationImage(
-                      image: NetworkImage(
-                          "https://res.cloudinary.com/practicaldev/image/fetch/s--q_01llEI--/c_fill,f_auto,fl_progressive,h_320,q_auto,w_320/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/293134/b04b975f-2622-4871-9f1f-5e87500ec79a.jpg"),
-                      fit: BoxFit.fill,
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: Container(
+              padding: const EdgeInsets.all(10.0),
+              // height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              color: Colors.indigo[200],
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: 200.0,
+                    height: 200.0,
+                    decoration: new BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(color: Colors.transparent, spreadRadius: 3),
+                      ],
+                      borderRadius: BorderRadius.circular(10.0),
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/nurse.png'),
+                        fit: BoxFit.fill,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        name,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0),
-                      ),
-                      Text("($role)"),
-                    ],
-                  ),
-                ),
-                // Divider(),
-                GestureDetector(
-                  child: Container(
-                    // margin: const EdgeInsets.all(10),
+                  Container(
                     padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20.0),
-                        color: Colors.indigo),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Edit Profile",
-                        style: TextStyle(
-                            color: Theme.of(context).accentColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0),
-                      ),
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          name,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0),
+                        ),
+                        Text("($role)"),
+                      ],
                     ),
                   ),
-                  onTap: () => Navigator.pushNamed(context, "Profile.route"),
-                ),
-              ],
+                  // Divider(),
+                  GestureDetector(
+                    child: Container(
+                      // margin: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.0),
+                          color: Colors.indigo),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Logout",
+                          style: TextStyle(
+                              color: Theme.of(context).accentColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0),
+                        ),
+                      ),
+                    ),
+                    onTap: () {
+                      // clearSession();
+
+                      //Navigator.popUntil(context, ModalRoute.withName('/'));
+                      Navigator.pop(context, true);
+
+                      Navigator.pushNamed(context, "Profile.route");
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
-          Column(
-            children: <Widget>[
-              SizedBox(
-                height: 20.0,
-              ),
-              OptionsBuilder2(context, "Settings", ""),
-              OptionsBuilder2(context, "Terms & Conditions / Privacy", ""),
-              OptionsBuilder2(context, "Log Out", Login.route),
-            ],
-          ),
+          // Column(
+          //   children: <Widget>[
+          //     SizedBox(
+          //       height: 20.0,
+          //     ),
+          //     OptionsBuilder2(context, "Settings", ""),
+          //     OptionsBuilder2(context, "Terms & Conditions / Privacy", ""),
+          //     OptionsBuilder2(context, "Log Out", Login.route),
+          //   ],
+          // ),
         ],
       ),
     );
