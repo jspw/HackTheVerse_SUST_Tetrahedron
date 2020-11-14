@@ -10,6 +10,10 @@ const routes: Routes = [
   },
   {
     path: 'auth',
+    redirectTo: '/auth/login'
+  },
+  {
+    path: 'auth',
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
   },
   {
@@ -27,7 +31,11 @@ const routes: Routes = [
   {
     path: 'admin',
     loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
-  }
+  },
+  {
+    path: 'nurse',
+    loadChildren: () => import('./nurse/nurse.module').then(m => m.NurseModule)
+  },
 ];
 
 @NgModule({
