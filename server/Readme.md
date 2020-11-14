@@ -8,6 +8,9 @@
     - [Access A Protected or Restricted Route](#access-a-protected-or-restricted-route)
   - [Admin](#admin)
     - [Create User](#create-user)
+  - [Wards](#wards)
+    - [Get Wards from Admin's Hospital](#get-wards-from-admin-s-hospital)
+    - [Create Ward on Admin's Hospital](#create-ward-on-admin-s-hospital)
 
 ## Start Server
 
@@ -62,8 +65,7 @@ Response:
       "phone": "Text",
       "role": "Text",
       "hospital": "ObjectID",
-      "registered_at": "Date",
-      "__v": 0
+      "registered_at": "Date"
     },
     "hospital": {
       "verified": "Boolean",
@@ -106,8 +108,7 @@ Response:
       "phone": "Text",
       "role": "Text",
       "hospital": "ObjectID",
-      "registered_at": "Date",
-      "__v": 0
+      "registered_at": "Date"
     },
     "hospital": {
       "verified": "Boolean",
@@ -167,6 +168,59 @@ Response:
       "role": "Text",
       "hospital": "ObjectID",
       "registered_at": "Date"
+    }
+  }
+}
+```
+
+### Wards
+
+#### Get Wards from Admin's Hospital
+
+Request: `RESTRICTED (admin)` `GET` `/wards`
+
+Response:
+
+```json
+{
+  "status": "success",
+  "data": {
+    "wards": [
+      {
+        "_id": "ObjectID",
+        "name": "Text",
+        "bedCount": "Number",
+        "hospital": "ObjectID"
+      }
+    ]
+  }
+}
+```
+
+#### Create Ward on Admin's Hospital
+
+Request: `RESTRICTED (admin)` `POST` `/wards`
+
+Body:
+
+```json
+{
+  "name": "Text*",
+  "bedCount": "Number*"
+}
+```
+
+Response:
+
+```json
+{
+  "status": "success",
+  "data": {
+    "ward": {
+      "_id": "ObjectID",
+      "name": "Text",
+      "bedCount": "Number",
+      "hospital": "ObjectID"
     }
   }
 }
