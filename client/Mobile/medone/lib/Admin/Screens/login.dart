@@ -69,7 +69,8 @@ class LoginState extends State {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{"username": username, "password": password}),
+      body: jsonEncode(
+          <String, String>{"username": username, "password": password}),
     );
 
     // print(jsonDecode(response.body));
@@ -90,10 +91,10 @@ class LoginState extends State {
       storeTokenLocally(token);
       if (info["data"]["user"]["role"] == "doctor") {
         Navigator.pushNamed(context, DoctorHome.route,
-            arguments: {"UserInfo": info["data"]["user"]});
+            arguments: {"UserInfo": info["data"]["user"], "token": token});
       } else if (info["data"]["user"]["role"] == "nurse") {
         Navigator.pushNamed(context, HealthWorkerHome.route,
-            arguments: {"UserInfo": info["data"]["user"]});
+            arguments: {"UserInfo": info["data"]["user"], "token": token});
       }
     } else {
       invalidLoginMessage(context);

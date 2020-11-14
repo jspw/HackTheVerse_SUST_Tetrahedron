@@ -78,8 +78,8 @@ class PatientHome extends StatelessWidget {
           ),
         ],
       ),
-      drawer:
-          DrawerX(UserInfo["name"], UserInfo["role"], UserInfo["id"], apiUrl),
+      // drawer:
+      //     DrawerX(UserInfo["name"], UserInfo["role"], UserInfo["id"], apiUrl),
     );
   }
 }

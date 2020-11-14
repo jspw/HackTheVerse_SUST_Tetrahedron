@@ -5,11 +5,11 @@ export 'package:flutter/material.dart';
 export '../Admin/Screens/login.dart';
 
 //Doctors
-export '../Doctor/Screens/patient.dart';
-export '../Doctor/Screens/allApointmentsDoctor.dart';
-export '../Doctor/Screens/dashboardDoctor.dart';
+// export '../Doctor/Screens/patient.dart';
+// export '../Doctor/Screens/allApointmentsDoctor.dart';
+// export '../Doctor/Screens/dashboardDoctor.dart';
 export '../Doctor/Screens/doctorHome.dart';
-export '../Doctor/Widgets/customDrawer.dart';
+// export '../Doctor/Widgets/customDrawer.dart';
 
 // Patient
 
@@ -52,7 +52,6 @@ export '../HealthWorker/Screens/Notifications.dart';
 export '../HealthWorker/Screens/patientsList.dart';
 export 'package:medone/HealthWorker/Screens/workerTasks.dart';
 export '../HealthWorker/Screens/patientProfile.dart';
-
 
 //Utility
 export './routers.dart';

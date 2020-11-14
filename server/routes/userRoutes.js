@@ -2,24 +2,32 @@
 
 // Importing functions from the controller
 const {
-  getUser,
-  signUp,
-  getSingleUser,
-  login,
-  logout,
-  getMyProfile,
-  updateProfile,
+  getAllNurses,
+  getAllDoctors,
+  getAllWardMonitors,
 } = require('../controllers/userController');
-const { protect } = require('../middlewares/protect');
+const { protect, restrictTo } = require('../middlewares/protect');
 
 // Importing the express router
 const userRouter = require('express').Router();
 
 // Setting up the routes
-userRouter.route('/').get(protect, getUser).post(signUp);
-userRouter.route('/me').get(protect, getMyProfile).put(protect, updateProfile);
-userRouter.route('/login').post(login);
-userRouter.route('/logout').get(protect, logout);
-userRouter.route('/:id').get(protect, getSingleUser);
+userRouter
+  .route('/nurses')
+  .get(
+    protect,
+    restrictTo('admin', 'ward-monitor', 'doctor', 'nurse'),
+    getAllNurses,
+  );
+userRouter
+  .route('/doctors')
+  .get(
+    protect,
+    restrictTo('admin', 'ward-monitor', 'doctor', 'nurse'),
+    getAllDoctors,
+  );
+userRouter
+  .route('/ward-monitors')
+  .get(protect, restrictTo('admin'), getAllWardMonitors);
 
 module.exports = userRouter;

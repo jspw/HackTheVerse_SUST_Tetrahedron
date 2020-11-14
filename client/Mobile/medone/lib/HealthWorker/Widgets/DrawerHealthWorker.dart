@@ -81,7 +81,7 @@ class CustomDrawer extends StatelessWidget {
     // throw UnimplementedError();
     return Drawer(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
@@ -92,7 +92,7 @@ class CustomDrawer extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
               color: Colors.indigo[200],
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
@@ -104,7 +104,7 @@ class CustomDrawer extends StatelessWidget {
                       ],
                       borderRadius: BorderRadius.circular(10.0),
                       image: DecorationImage(
-                        image: AssetImage('assets/images/nurse.png'),
+                        image: AssetImage('assets/images/$role' + '1.png'),
                         fit: BoxFit.fill,
                       ),
                     ),
@@ -125,36 +125,39 @@ class CustomDrawer extends StatelessWidget {
                     ),
                   ),
                   // Divider(),
-                  GestureDetector(
-                    child: Container(
-                      // margin: const EdgeInsets.all(10),
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.0),
-                          color: Colors.indigo),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Logout",
-                          style: TextStyle(
-                              color: Theme.of(context).accentColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0),
-                        ),
-                      ),
-                    ),
-                    onTap: () {
-                      // clearSession();
-
-                      //Navigator.popUntil(context, ModalRoute.withName('/'));
-                      Navigator.pop(context, true);
-
-                      Navigator.pushNamed(context, "Profile.route");
-                    },
-                  ),
                 ],
               ),
             ),
+          ),
+
+          GestureDetector(
+            child: Container(
+              margin: const EdgeInsets.all(40),
+              alignment: Alignment.center,
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                  color: Colors.indigo),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Logout",
+                  style: TextStyle(
+                      color: Theme.of(context).accentColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.0),
+                ),
+              ),
+            ),
+            onTap: () {
+              // clearSession();
+
+              //Navigator.popUntil(context, ModalRoute.withName('/'));
+              Navigator.pop(context, true);
+              Navigator.pop(context, true);
+
+              Navigator.pushNamed(context, Login.route);
+            },
           ),
           // Column(
           //   children: <Widget>[
