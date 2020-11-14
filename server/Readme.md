@@ -374,3 +374,86 @@ Response:
   }
 }
 ```
+
+### Users from Hospital or Ward
+
+#### Get All Ward Monitors
+
+Request: `RESTRICTED (admin)` `GET` `/users/ward-monitors`
+
+Response:
+
+```json
+{
+  "status": "success",
+  "data": {
+    "wardMonitors": [
+      {
+        "_id": "ObjectID",
+        "name": "Text",
+        "username": "Text",
+        "email": "Email",
+        "phone": "Text",
+        "role": "Text",
+        "hospital": "ObjectID",
+        "ward": "ObjectID",
+        "registered_at": "Date"
+      }
+    ]
+  }
+}
+```
+
+#### Get All Doctors
+
+Request: `RESTRICTED (admin, ward-monitor)` `GET` `/users/doctors`
+
+Response:
+
+```json
+{
+  "status": "success",
+  "data": {
+    "doctors": [
+      {
+        "_id": "ObjectID",
+        "name": "Text",
+        "username": "Text",
+        "email": "Email",
+        "phone": "Text",
+        "role": "Text",
+        "hospital": "ObjectID",
+        "ward": "ObjectID",
+        "registered_at": "Date"
+      }
+    ]
+  }
+}
+```
+
+#### Get All Nurses
+
+Request: `RESTRICTED (admin, ward-monitor)` `GET` `/users/nurses`
+
+Response:
+
+```json
+{
+  "status": "success",
+  "data": {
+    "nurses": [
+      {
+        "_id": "ObjectID",
+        "name": "Text",
+        "username": "Text",
+        "email": "Email",
+        "phone": "Text",
+        "role": "Text",
+        "hospital": "ObjectID",
+        "ward": "ObjectID",
+        "registered_at": "Date"
+      }
+    ]
+  }
+}
+```

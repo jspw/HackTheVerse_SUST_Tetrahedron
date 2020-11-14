@@ -3,55 +3,53 @@
 // Importing the model
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const UserModel = require('../models/UserModel');
 
-// Function to get all users
-const getUser = catchAsync(async (req, res, next) => {
-  const users = await UserModel.find();
+// Function to get all nurses
+const getAllNurses = catchAsync(async (req, res, next) => {
+  const { hospital } = req.user;
+  let nurses;
+  if (req.user.role === 'admin')
+    nurses = await UserModel.find({ hospital, role: 'nurse' });
+  else if (req.user.role === 'ward-monitor')
+    nurses = await UserModel.find({
+      hospital,
+      ward: req.user.ward,
+      role: 'nurse',
+    });
+
   res.status(200).json({
     status: 'success',
-    data: { users },
+    data: { nurses },
   });
 });
 
-// Function to sign up a user
-const signUp = catchAsync(async (req, res, next) => {
-  const { name, email, password, nid, phone, dateOfBirth, role } = req.body;
-  const newUser = new UserModel({
-    name,
-    email,
-    password,
-    nid,
-    phone,
-    dateOfBirth: new Date(dateOfBirth),
-    role,
+const getAllDoctors = catchAsync(async (req, res, next) => {
+  const { hospital } = req.user;
+  let doctors;
+  if (req.user.role === 'admin')
+    doctors = await UserModel.find({ hospital, role: 'doctor' });
+  else if (req.user.role === 'ward-monitor')
+    doctors = await UserModel.find({
+      hospital,
+      ward: req.user.ward,
+      role: 'doctor',
+    });
+
+  res.status(200).json({
+    status: 'success',
+    data: { doctors },
   });
-  const user = await newUser.save();
-
-  sendToken(user, 201, res);
 });
 
-// Function to login a user
-const login = catchAsync(async (req, res, next) => {
-  const { email, password } = req.body;
+const getAllWardMonitors = catchAsync(async (req, res, next) => {
+  const { hospital } = req.user;
+  const wardMonitors = await UserModel.find({ hospital, role: 'ward-monitor' });
 
-  if (!email || !password) {
-    return next(new AppError('Provide valid email and password!', 400));
-  }
-
-  const user = await UserModel.findOne({ email }).select('+password');
-  if (!user) return next(new AppError('Invalid email or password', 401));
-
-  const correct = await bcrypt.compare(password, user.password);
-  if (!correct) return next(new AppError('Invalid email or password', 401));
-
-  sendToken(user, 201, res);
-});
-
-const logout = catchAsync(async (req, res, next) => {
-  res.status(200).json({ status: 'success' });
+  res.status(200).json({
+    status: 'success',
+    data: { wardMonitors },
+  });
 });
 
 // Function to get user by id
@@ -90,37 +88,4 @@ const updateProfile = catchAsync(async (req, res, next) => {
   });
 });
 
-// Signing a token
-const signToken = id => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN,
-  });
-};
-
-// Send token to client
-const sendToken = (user, statusCode, res) => {
-  const token = signToken(user._id);
-  if (process.env.NODE_ENV == 'production') cookieOptions.secure = true;
-
-  user.password = undefined;
-  res.status(statusCode).json({
-    status: 'success',
-    jwt: {
-      token,
-      expiresIn: process.env.JWT_EXPIRES_IN,
-    },
-    data: {
-      user,
-    },
-  });
-};
-
-module.exports = {
-  signUp,
-  getUser,
-  getSingleUser,
-  login,
-  logout,
-  getMyProfile,
-  updateProfile,
-};
+module.exports = { getAllNurses, getAllDoctors, getAllWardMonitors };

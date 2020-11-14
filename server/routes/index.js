@@ -6,16 +6,17 @@ const AppError = require('../utils/appError');
 // Importing the routers
 const adminRouter = require('./adminRoutes');
 const patientRouter = require('./patientRoutes');
+const userRouter = require('./userRoutes');
 const wardRouter = require('./wardRoutes');
 
 // Importing express router
 const router = require('express').Router();
 
 // Registering all routers
-// router.use('/users', userRouter);
 // router.use('/chambers', chamberRouter);
 // router.use('/appointments', appointmentRouter);
 router.use('/admin', adminRouter);
+router.use('/users', userRouter);
 router.use('/wards', wardRouter);
 router.use('/patients', patientRouter);
 
