@@ -4,6 +4,10 @@
 - [API Documentation](#api-documentation)
   - [Authorization](#authorization)
     - [Registration](#registration)
+    - [Login](#login)
+    - [Access A Protected or Restricted Route](#access-a-protected-or-restricted-route)
+  - [Admin](#admin)
+    - [Create User](#create-user)
 
 ## Start Server
 
@@ -66,6 +70,103 @@ Response:
       "_id": "ObjectID",
       "name": "Text",
       "address": "Text"
+    }
+  }
+}
+```
+
+#### Login
+
+Request: `POST` `/admin/login`
+
+Body:
+
+```json
+{
+  "username": "Text*",
+  "password": "Text*"
+}
+```
+
+Response:
+
+```json
+{
+  "status": "success",
+  "jwt": {
+    "token": "JWT Token",
+    "expiresIn": "Time: ms"
+  },
+  "data": {
+    "user": {
+      "_id": "ObjectID",
+      "name": "Text",
+      "username": "Text",
+      "email": "Email",
+      "phone": "Text",
+      "role": "Text",
+      "hospital": "ObjectID",
+      "registered_at": "Date",
+      "__v": 0
+    },
+    "hospital": {
+      "verified": "Boolean",
+      "_id": "ObjectID",
+      "name": "Text",
+      "address": "Text"
+    }
+  }
+}
+```
+
+#### Access A Protected or Restricted Route
+
+Add the JSON Web Token, you get by logging in or during regestration, on the header like this.
+
+Header:
+
+```json
+{
+  "authorization": "Bearer JWT_TOKEN"
+}
+```
+
+If the endpoint is restricted, it'd return a success response, only if the request comes from any allowed user.
+
+### Admin
+
+#### Create User
+
+Request: `RESTRICTED (admin)` `POST` `/admin/createuser`
+
+Body:
+
+```json
+{
+  "name": "Text*",
+  "username": "Text*",
+  "email": "Email",
+  "password": "Text*",
+  "phone": "Text",
+  "role": "Text* -> admin/doctor/nurse/ward-monitor"
+}
+```
+
+Response:
+
+```json
+{
+  "status": "success",
+  "data": {
+    "user": {
+      "_id": "ObjectID",
+      "name": "Text",
+      "username": "Text",
+      "email": "Email",
+      "phone": "Text",
+      "role": "Text",
+      "hospital": "ObjectID",
+      "registered_at": "Date"
     }
   }
 }
