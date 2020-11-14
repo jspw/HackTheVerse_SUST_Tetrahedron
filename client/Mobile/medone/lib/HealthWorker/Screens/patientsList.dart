@@ -1,7 +1,7 @@
 import '../../utils/customLib.dart';
 
-class DoctorsList extends StatelessWidget {
-  static const route = '/doctors-list';
+class PatientsList extends StatelessWidget {
+  static const route = '/patients-list';
 
   @override
   Widget build(BuildContext context) {
@@ -9,7 +9,7 @@ class DoctorsList extends StatelessWidget {
     // throw UnimplementedError();
     return Scaffold(
       appBar: AppBar(
-        title: Text("All Doctors"),
+        title: Text("All Patients List"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -24,7 +24,7 @@ class DoctorsList extends StatelessWidget {
               label: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "Doctor",
+                  "Name",
                   style: TextStyle(
                       fontSize: 22.0,
                       color: Colors.black,
@@ -37,7 +37,7 @@ class DoctorsList extends StatelessWidget {
               label: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "Shift",
+                  "Bed No",
                   style: TextStyle(
                       fontSize: 22.0,
                       color: Colors.black,
@@ -67,38 +67,45 @@ class DoctorsList extends StatelessWidget {
                 DataCell(
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text("Dr Mobin",
-                        overflow: TextOverflow.visible,
-                        style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500)),
+                    child: Text(
+                      "Mobin Khan",
+                      overflow: TextOverflow.visible,
+                      style: TextStyle(
+                          fontSize: 18.0,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500),
+                    ),
                   ),
                 ),
                 DataCell(
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text("7PM-10PM",
-                        overflow: TextOverflow.visible,
-                        style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500)),
+                    child: Text(
+                      "04",
+                      overflow: TextOverflow.visible,
+                      style: TextStyle(
+                          fontSize: 18.0,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500),
+                    ),
                   ),
                 ),
                 DataCell(
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: GestureDetector(
-                        onTap: () => Navigator.pushNamed(context, "Test.route"),
+                        onTap: () =>
+                            Navigator.pushNamed(context, PatientProfile.route),
                         child: Container(
                             padding: const EdgeInsets.all(5),
                             color: Colors.green,
-                            child: Text("View",
-                                style: TextStyle(
-                                    fontSize: 20.0,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500)))),
+                            child: Text(
+                              "View",
+                              style: TextStyle(
+                                  fontSize: 20.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500),
+                            ))),
                   ),
                 )
               ],

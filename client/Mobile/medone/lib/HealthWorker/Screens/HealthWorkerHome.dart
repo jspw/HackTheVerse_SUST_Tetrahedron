@@ -35,30 +35,33 @@ class HealthWorkerHomeState extends State {
         ),
         centerTitle: true,
         actions: <Widget>[
-          Stack(
-            textDirection: TextDirection.rtl,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(
-                  Icons.notifications,
-                  color: Theme.of(context).accentColor,
-                  size: 40,
+          GestureDetector(
+            onTap: () =>
+                Navigator.pushNamed(context, NotificationsToNurse.route),
+            child: Stack(
+              textDirection: TextDirection.rtl,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.notifications,
+                    color: Theme.of(context).accentColor,
+                    size: 40,
+                  ),
                 ),
-                onPressed: () => Navigator.pushNamed(context, "Cart.route"),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  padding: const EdgeInsets.all(5),
-                  // alignment: Alignment.topRight,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: Colors.blue),
-                  child: Text("5",
-                      style: TextStyle(color: Colors.white, fontSize: 14)),
-                ),
-              )
-            ],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: Colors.blue),
+                    child: Text("5",
+                        style: TextStyle(color: Colors.white, fontSize: 15)),
+                  ),
+                )
+              ],
+            ),
           ),
         ],
       ),
@@ -66,11 +69,11 @@ class HealthWorkerHomeState extends State {
         padding: const EdgeInsets.all(20),
         alignment: AlignmentDirectional.center,
         child: GridView.count(
-          childAspectRatio: 1.3,
+          childAspectRatio: 1.2,
           children: <Widget>[
-            featureOptions(context, "My Tasks", "/all-doctors-list",
+            featureOptions(context, "My Tasks", TaskWorkers.route,
                 "assets/images/medical-record.png"),
-            featureOptions(context, "Patient List", "/all-doctors-list",
+            featureOptions(context, "Patient List", PatientsList.route,
                 "assets/images/hospitalisation.png"),
             featureOptions(context, "Doctors", DoctorsList.route,
                 "assets/images/doctor.png"),
@@ -92,7 +95,7 @@ Widget featureOptions(
   return GestureDetector(
     onTap: () => Navigator.pushNamed(contex, route),
     child: Card(
-      color: Colors.white70,
+      color: Colors.lightBlue[800],
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -101,10 +104,13 @@ Widget featureOptions(
             child: Image.asset(imgUrl),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(10.0),
             child: Text(
               title,
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w900),
             ),
           )
         ],

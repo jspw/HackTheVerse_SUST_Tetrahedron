@@ -3,7 +3,6 @@ import './customLib.dart';
 class Routes {
   static routes() {
     return {
-      
       //AUTH
       Login.route: (context) => Login(),
 
@@ -31,11 +30,16 @@ class Routes {
 
       //Health Worker
       HealthWorkerHome.route: (context) => HealthWorkerHome(),
+      NotificationsToNurse.route: (contex) => NotificationsToNurse(),
       DoctorsList.route: (contex) => DoctorsList(),
+      TaskWorkers.route: (context) => TaskWorkers(),
+      PatientsList.route: (contex) => PatientsList(),
+      PatientProfile.route: (contex) => PatientProfile(),
     };
   }
 
   static initScreen() {
-    return Login.route;
+    // return Login.route;
+    return HealthWorkerHome.route;
   }
 }
