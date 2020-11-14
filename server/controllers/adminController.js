@@ -55,7 +55,8 @@ const login = catchAsync(async (req, res, next) => {
 });
 
 const createUser = catchAsync(async (req, res, next) => {
-  const { name, username, email, password, phone, role, ward } = req.body;
+  const { hospital, ward } = req.user;
+  const { name, username, email, password, phone, role } = req.body;
   if (!username) return next(new AppError('Invalid body structure', 400));
   const newUser = new UserModel({
     name,
@@ -64,7 +65,7 @@ const createUser = catchAsync(async (req, res, next) => {
     password,
     phone,
     role,
-    hospital: req.user.hospital,
+    hospital,
     ward,
   });
   const user = await newUser.save();
