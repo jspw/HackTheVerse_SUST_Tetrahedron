@@ -294,7 +294,7 @@ Response:
 {
   "status": "success",
   "data": {
-    "patients": [
+    "patient": [
       {
         "admitDate": "Date",
         "releaseDate": "Date",
@@ -305,7 +305,13 @@ Response:
         "hospital": "ObjectID",
         "ward": "ObjectID",
         "bed": "Text",
-        "medics": [{ "name": "Text", "frequency": ["Number"], "note": "Text" }]
+        "medics": [{ "name": "Text", "frequency": ["Number"], "note": "Text" }],
+        "sensorData": [
+          {
+            "name": "Text",
+            "value": ["Number"]
+          }
+        ]
       }
     ]
   }
@@ -370,7 +376,13 @@ Response:
       "hospital": "ObjectID",
       "ward": "ObjectID",
       "bed": "Text",
-      "medics": [{ "name": "Text", "frequency": ["Number"], "note": "Text" }]
+      "medics": [{ "name": "Text", "frequency": ["Number"], "note": "Text" }],
+      "sensorData": [
+        {
+          "name": "Text",
+          "value": ["Number"]
+        }
+      ]
     }
   }
 }
