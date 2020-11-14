@@ -8,9 +8,15 @@
     - [Access A Protected or Restricted Route](#access-a-protected-or-restricted-route)
   - [Admin](#admin)
     - [Create User](#create-user)
-  - [Wards](#wards)
-    - [Get Wards from Admin's Hospital](#get-wards-from-admin-s-hospital)
-    - [Create Ward on Admin's Hospital](#create-ward-on-admin-s-hospital)
+  - [Wards from Admin Hospital](#wards-from-admin-hospital)
+    - [Get Wards](#get-wards)
+    - [Create Ward](#create-ward)
+    - [Get Single Ward](#get-single-ward)
+    - [Update Ward](#update-ward)
+  - [Patients from Ward](#patients-from-ward)
+    - [Get Patients](#get-patients)
+    - [Admit Patient](#admit-patient)
+    - [Get Single Patient](#get-single-patient)
 
 ## Start Server
 
