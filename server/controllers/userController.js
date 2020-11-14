@@ -11,7 +11,7 @@ const getAllNurses = catchAsync(async (req, res, next) => {
   let nurses;
   if (req.user.role === 'admin')
     nurses = await UserModel.find({ hospital, role: 'nurse' });
-  else if (req.user.role === 'ward-monitor')
+  else
     nurses = await UserModel.find({
       hospital,
       ward: req.user.ward,
@@ -29,7 +29,7 @@ const getAllDoctors = catchAsync(async (req, res, next) => {
   let doctors;
   if (req.user.role === 'admin')
     doctors = await UserModel.find({ hospital, role: 'doctor' });
-  else if (req.user.role === 'ward-monitor')
+  else
     doctors = await UserModel.find({
       hospital,
       ward: req.user.ward,

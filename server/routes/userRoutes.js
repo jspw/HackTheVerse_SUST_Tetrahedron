@@ -14,10 +14,18 @@ const userRouter = require('express').Router();
 // Setting up the routes
 userRouter
   .route('/nurses')
-  .get(protect, restrictTo('admin', 'ward-monitor'), getAllNurses);
+  .get(
+    protect,
+    restrictTo('admin', 'ward-monitor', 'doctor', 'nurse'),
+    getAllNurses,
+  );
 userRouter
   .route('/doctors')
-  .get(protect, restrictTo('admin', 'ward-monitor'), getAllDoctors);
+  .get(
+    protect,
+    restrictTo('admin', 'ward-monitor', 'doctor', 'nurse'),
+    getAllDoctors,
+  );
 userRouter
   .route('/ward-monitors')
   .get(protect, restrictTo('admin'), getAllWardMonitors);

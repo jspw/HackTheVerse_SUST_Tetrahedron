@@ -406,7 +406,7 @@ Response:
 
 #### Get All Doctors
 
-Request: `RESTRICTED (admin, ward-monitor)` `GET` `/users/doctors`
+Request: `RESTRICTED (admin, ward-monitor, doctor, nurse)` `GET` `/users/doctors`
 
 Response:
 
@@ -433,7 +433,7 @@ Response:
 
 #### Get All Nurses
 
-Request: `RESTRICTED (admin, ward-monitor)` `GET` `/users/nurses`
+Request: `RESTRICTED (admin, ward-monitor, doctor, nurse)` `GET` `/users/nurses`
 
 Response:
 
