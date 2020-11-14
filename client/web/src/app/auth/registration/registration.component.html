@@ -1,0 +1,38 @@
+<mat-card class="example-card p-5 mr-5 mx-auto">
+    <mat-card-header>
+        <div class="mx-auto">
+            <mat-card-title>Login</mat-card-title>
+        </div>
+    </mat-card-header>
+    <form [formGroup]="authenticationForm" (ngSubmit)="onSubmit()">
+        <mat-card-content>
+            <mat-form-field appearance="legacy" class="w-100">
+                <mat-label>Email</mat-label>
+                <input type="email" matInput [formControlName]="'email'" placeholder="Ex. pat@example.com">
+                <mat-error
+                    *ngIf="authenticationForm.get('email').hasError('email') && !authenticationForm.get('email').hasError('required')">
+                    Please enter a valid email address
+                </mat-error>
+                <mat-error *ngIf="authenticationForm.get('email').hasError('required')">
+                    Email is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="legacy" class="w-100">
+                <mat-label>Password</mat-label>
+                <input type="password" matInput [formControlName]="'password'" placeholder="Ex. pat@example.com">
+                <mat-error *ngIf="authenticationForm.get('password').hasError('required')">
+                    Password is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+            <label class="mr-4">Login As: </label>
+        </mat-card-content>
+        <mat-card-actions>
+            <button class="mb-4" type="submit" mat-raised-button color="primary"
+                [disabled]="authenticationForm.invalid">
+                Login
+            </button>
+            <br>
+            <a [routerLink]="['/hospital-registration']" class="font-weight-bold">Want to register your hospital?</a>
+        </mat-card-actions>
+    </form>
+</mat-card>
