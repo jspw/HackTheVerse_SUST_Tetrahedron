@@ -103,5 +103,6 @@ dist
 # TernJS port file
 .tern-port
 
-# ngrok
+# others
 *.exe
+experiments
