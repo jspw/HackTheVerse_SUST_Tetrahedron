@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Chart} from 'chart.js';
+import * as Chart from 'chart.js';
 @Component({
   selector: 'app-data-visualization',
   templateUrl: './data-visualization.component.html',
@@ -16,6 +16,7 @@ export class DataVisualizationComponent implements OnInit {
   public LinechartLables : Array<any> =['January', 'February', 'March', 'April', 'May', 'June', 'July'];
   public LinedatasetLable : Array<any> = ['Normal Condition','Moderate Risk',"Severe Risk"];
   public LinecurrentData : Array<number>= [65, 59, 80, 81, 56, 55, 40];
+  
   ngOnInit(): void {
     this.Linechart = new Chart('canvas',{
       type:'line',

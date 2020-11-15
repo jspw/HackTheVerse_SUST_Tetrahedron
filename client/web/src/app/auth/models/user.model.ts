@@ -41,4 +41,8 @@ export class User {
     get isAdmin(): boolean {
         return this.role === 'admin'
     }
+
+    get isWardMonitor() : boolean {
+        return this.role === 'ward-monitor'
+    }
 }

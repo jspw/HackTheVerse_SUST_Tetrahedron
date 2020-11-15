@@ -17,10 +17,16 @@
     - [Get Patients](#get-patients)
     - [Admit Patient](#admit-patient)
     - [Get Single Patient](#get-single-patient)
+  - [Users from Hospital or Ward](#users-from-hospital-or-ward)
+    - [Get All Ward Monitors](#get-all-ward-monitors)
+    - [Get All Doctors](#get-all-doctors)
+    - [Get All Nurses](#get-all-nurses)
 
 ## Start Server
 
 At first you have to create a `.env` file, and add your `MONGO_URI` in it. Have a look at the `.env.example` for more information.
+
+Then you would have to install redis on your machine and run redis server on `localhost:6379`.
 
 Then run `npm i` to install the required packages. Then run `npm run dev` to start the development server (Nodemon is required). Or run `npm start` to start the production server.
 
@@ -294,7 +300,7 @@ Response:
 {
   "status": "success",
   "data": {
-    "patients": [
+    "patient": [
       {
         "admitDate": "Date",
         "releaseDate": "Date",
@@ -305,7 +311,13 @@ Response:
         "hospital": "ObjectID",
         "ward": "ObjectID",
         "bed": "Text",
-        "medics": [{ "name": "Text", "frequency": ["Number"], "note": "Text" }]
+        "medics": [{ "name": "Text", "frequency": ["Number"], "note": "Text" }],
+        "sensorData": [
+          {
+            "name": "Text",
+            "value": ["Number"]
+          }
+        ]
       }
     ]
   }
@@ -360,7 +372,7 @@ Response:
 {
   "status": "success",
   "data": {
-    "patients": {
+    "patient": {
       "admitDate": "Date",
       "releaseDate": "Date",
       "_id": "ObjectID",
@@ -370,7 +382,13 @@ Response:
       "hospital": "ObjectID",
       "ward": "ObjectID",
       "bed": "Text",
-      "medics": [{ "name": "Text", "frequency": ["Number"], "note": "Text" }]
+      "medics": [{ "name": "Text", "frequency": ["Number"], "note": "Text" }],
+      "sensorData": [
+        {
+          "name": "Text",
+          "value": ["Number"]
+        }
+      ]
     }
   }
 }

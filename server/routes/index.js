@@ -13,8 +13,6 @@ const wardRouter = require('./wardRoutes');
 const router = require('express').Router();
 
 // Registering all routers
-// router.use('/chambers', chamberRouter);
-// router.use('/appointments', appointmentRouter);
 router.use('/admin', adminRouter);
 router.use('/users', userRouter);
 router.use('/wards', wardRouter);

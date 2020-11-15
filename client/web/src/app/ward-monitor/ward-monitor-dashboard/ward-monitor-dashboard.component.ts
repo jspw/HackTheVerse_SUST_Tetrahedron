@@ -8,7 +8,7 @@ import {Chart} from 'chart.js';
 })
 export class WardMonitorDashboardComponent implements OnInit {
 
-  sidenav = false;
+  
   constructor() { }
   
   //Pie Chart
@@ -67,7 +67,7 @@ export class WardMonitorDashboardComponent implements OnInit {
         labels: ["<  1","1 - 2","3 - 4","5 - 9","10 - 14","15 - 19","20 - 24","25 - 29","> - 29"],
         datasets:[
           {
-            label: 'Employee',
+            label: 'Seat Booked',
             backgroundColor: "#caf270",
             data: [12, 59, 5, 56, 58,12, 59, 87, 45],
             borderColor: '#2F0147',
@@ -75,23 +75,7 @@ export class WardMonitorDashboardComponent implements OnInit {
             stack:'a'
           },
           {
-            label: 'Engineer',
-            backgroundColor: "#45c490",
-            data: [12, 59, 5, 56, 58,12, 59, 85, 23],
-            borderColor: '#2F0147',
-            borderWidth: 3,
-            stack:'a'
-          },
-          {
-            label: 'Government',
-            backgroundColor: "#008d93",
-            data: [12, 59, 5, 56, 58,12, 59, 65, 51],
-            borderColor: '#2F0147',
-            borderWidth: 3,
-            stack:'a'
-          },
-          {
-            label: 'Political parties',
+            label: 'Available Seat',
             backgroundColor: "#2e5468",
             data: [12, 59, 5, 56, 58, 12, 59, 12, 74],
             borderColor: '#2F0147',
