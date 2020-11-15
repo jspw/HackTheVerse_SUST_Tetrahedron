@@ -1,37 +1,92 @@
-import 'dart:ui';
+import 'package:flutter_sparkline/flutter_sparkline.dart';
 
 import '../../utils/customLib.dart';
+import 'package:http/http.dart' as http;
 
 class PatientProfile extends StatefulWidget {
   static const route = "/profile-patient";
+
+  String patientId, token;
+
+  PatientProfile(this.patientId, this.token);
+
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
     // throw UnimplementedError();
-    return PatientProfilState();
+    return PatientProfilState(patientId, token);
   }
 }
 
 class PatientProfilState extends State {
   bool showPatientInfo = false;
-  bool showPatientHealthInfo = true;
+  bool showPatientHealthInfo = false;
+
+  String patientId, token;
+
+  PatientProfilState(this.patientId, this.token);
+
+  String apiUrl = ApiUrl.url;
+
+  Map<String, dynamic> patientInfo;
+
+  List<double> temperatureValues;
+
+  Future<Map<String, dynamic>> _getPatienInfo(
+      String token, String patient_id) async {
+    print("Token : ");
+    print(token);
+    http.Response response = await http.get(apiUrl + '/patients/' + patient_id,
+        headers: {"authorization": "Bearer $token"});
+    var data = jsonDecode(response.body);
+
+    print("data : ");
+    print(data);
+
+    if (data["status"] == "success") {
+      return data["data"];
+    }
+  }
+
+  getData() async {
+    var data = await _getPatienInfo(patientId, token);
+    setState(() {
+      patientInfo = data;
+    });
+    // var p = await patientInfo["sensorData"][1]["value"];
+
+    // setState(() {
+    //   for (int i=0;i<p.length;i++){
+    //     // Double x =
+    //     temperatureValues[i] = double.parse(p[i]);
+    //   }
+    // });
+
+    // print(temperatureValues.runtimeType);
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
 
   Widget customBox(String img, String title, String amount, String comment) {
     return Card(
       child: Container(
         padding: const EdgeInsets.all(10),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Image.asset(img),
             Text(title),
             Text(amount),
-            Expanded(
-                child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(comment),
-            )),
+            // Expanded(
+            //     child: Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: Text(comment),
+            // )),
           ],
         ),
       ),
@@ -96,14 +151,13 @@ class PatientProfilState extends State {
           color: Colors.grey,
           fontWeight: FontWeight.w500,
         ),
+        overflow: TextOverflow.ellipsis,
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    // throw UnimplementedError();
     return Scaffold(
       appBar: AppBar(
         title: Text("Patient | Mh Shifat"),
@@ -121,81 +175,83 @@ class PatientProfilState extends State {
             },
             child: healthInfoCards("Patient Information", showPatientInfo),
           ),
-          showPatientInfo
-              ? Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        border: Border(
+          if (showPatientInfo)
+            if (patientInfo == null)
+              Container(
+                  padding: const EdgeInsets.all(50),
+                  child: Text("Loading Data......."))
+            else
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border(
                       top: BorderSide(),
                       bottom: BorderSide(),
                       left: BorderSide(),
                       right: BorderSide(),
-                    )),
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            PatientinfoTitle("Name"),
-                            PatientinfoTitle("Age"),
-                            PatientinfoTitle("Address"),
-                            PatientinfoTitle("Date of Birth"),
-                            PatientinfoTitle("Blood Group"),
-                            PatientinfoTitle("Disease"),
-                            PatientinfoTitle("Ward No"),
-                            PatientinfoTitle("Bed No"),
-                            PatientinfoTitle("Assigned Doctor"),
-                          ],
-                        ),
-                        Column(
-                          children: <Widget>[
-                            clone(),
-                            clone(),
-                            clone(),
-                            clone(),
-                            clone(),
-                            clone(),
-                            clone(),
-                            clone(),
-                            clone(),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            PatientinfoTitleValue("Mehedi Hasan Shifat"),
-                            PatientinfoTitleValue("23"),
-                            PatientinfoTitleValue("Madina Market,Sylhet"),
-                            PatientinfoTitleValue("4th Nov,1997"),
-                            PatientinfoTitleValue("O (-)"),
-                            PatientinfoTitleValue("Fiver"),
-                            PatientinfoTitleValue("102"),
-                            PatientinfoTitleValue("07"),
-                            GestureDetector(
-                              onTap: () => Navigator.pushNamed(
-                                  context, "/doctor-profile"),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "Dr. Mobin Khan",
-                                  style: TextStyle(
-                                      color: Colors.blue,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 22),
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
                     ),
                   ),
-                )
-              : Text(""),
+                  padding: const EdgeInsets.all(10),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          PatientinfoTitle("Name"),
+                          PatientinfoTitle("age"),
+                          PatientinfoTitle("Blood Group"),
+                          PatientinfoTitle("Disease"),
+                          PatientinfoTitle("Ward No"),
+                          PatientinfoTitle("Bed No"),
+                          PatientinfoTitle("Assigned Doctor"),
+                        ],
+                      ),
+                      Column(
+                        children: <Widget>[
+                          clone(),
+                          clone(),
+                          clone(),
+                          clone(),
+                          clone(),
+                          clone(),
+                          clone(),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          PatientinfoTitleValue(patientInfo["patient"]["name"]),
+                          PatientinfoTitleValue(
+                              patientInfo["patient"]["age"].toString()),
+                          PatientinfoTitleValue("O (-) "),
+                          PatientinfoTitleValue(
+                              patientInfo["patient"]["disease"]),
+                          PatientinfoTitleValue(
+                              patientInfo["patient"]["ward"]["name"]),
+                          PatientinfoTitleValue(patientInfo["patient"]["bed"]),
+                          GestureDetector(
+                            onTap: () =>
+                                Navigator.pushNamed(context, "/doctor-profile"),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Dr. Mobin Khan",
+                                style: TextStyle(
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 22),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
           GestureDetector(
             onTap: () {
               setState(() {
@@ -205,35 +261,69 @@ class PatientProfilState extends State {
             child: healthInfoCards(
                 "Health Information (Live)", showPatientHealthInfo),
           ),
-          showPatientHealthInfo
-              ? GridView.count(
-                  physics: ScrollPhysics(),
-                  shrinkWrap: true,
-                  primary: false,
-                  padding: const EdgeInsets.all(20),
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  crossAxisCount: 2,
-                  children: <Widget>[
-                    customBox("assets/images/cardiogram.png", "Heart Rate",
-                        "600", "07% Less Then Last Month"),
-                    customBox("assets/images/hearts.png", "Blood Pressure",
-                        "110/70", "vlo nah bachbina beshidin"),
-                    customBox("assets/images/blood.png", "Blood Count",
-                        "9,456/mL", "22% Less Then Last Month"),
-                    customBox("assets/images/glucose-meter.png",
-                        "Glucose Level", "80-85", "12% Higher Then Last Month"),
-                    customBox("assets/images/cardiogram.png", "Heart Rate",
-                        "600", "07% Less Then Last Month"),
-                    customBox("assets/images/hearts.png", "Blood Pressure",
-                        "110/70", "vlo nah bachbina beshidin"),
-                    customBox("assets/images/blood.png", "Blood Count",
-                        "9,456/mL", "22% Less Then Last Month"),
-                    customBox("assets/images/glucose-meter.png",
-                        "Glucose Level", "80-85", "12% Higher Then Last Month"),
-                  ],
-                )
-              : Text(""),
+          if (showPatientHealthInfo)
+            if (patientInfo == null)
+              Container(
+                  padding: const EdgeInsets.all(50),
+                  child: Text("Loading Data......."))
+            else
+              GridView.count(
+                physics: ScrollPhysics(),
+                shrinkWrap: true,
+                primary: false,
+                padding: const EdgeInsets.all(20),
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                crossAxisCount: 2,
+                children: <Widget>[
+                  customBox(
+                      "assets/images/thermometer.png",
+                      "Temperature",
+                      // patientInfo["sensorData"][0]["value"][0].toString(),
+                      patientInfo["sensorData"][0]["value"][0],
+                      "07% Less Then Last Month"),
+                  customBox(
+                      "assets/images/cardiogram.png",
+                      "Pulse",
+                      // patientInfo["sensorData"][0]["value"][0].toString(),
+                      patientInfo["sensorData"][1]["value"][0],
+                      "07% Less Then Last Month"),
+                  customBox(
+                      "assets/images/heart.png",
+                      "Systolic",
+                      patientInfo["sensorData"][2]["value"][0],
+                      "vlo nah bachbina beshidin"),
+                  customBox(
+                      "assets/images/speedometer.png",
+                      "Diastolic",
+                      patientInfo["sensorData"][3]["value"][0],
+                      "22% Less Then Last Month"),
+                  customBox(
+                      "assets/images/glucose-meter.png",
+                      "Oxygen",
+                      patientInfo["sensorData"][4]["value"][0],
+                      "12% Higher Then Last Month"),
+                  // customBox(
+                  //     "assets/images/oxygen.png",
+                  //     "Oxygen",
+                  //     patientInfo["sensorData"][3]["value"][0],
+                  // "07% Less Then Last Month"),
+                  // customBox("assets/images/hearts.png", "Blood Pressure",
+                  //     "110/70", "vlo nah bachbina beshidin"),
+                  // customBox("assets/images/blood.png", "Blood Count",
+                  //     "9,456/mL", "22% Less Then Last Month"),
+                  // customBox("assets/images/glucose-meter.png",
+                  //     "Glucose Level", "80-85", "12% Higher Then Last Month"),
+                ],
+              ),
+          // if (temperatureValues != null)
+          //   Sparkline(
+          //     data: temperatureValues,
+          //     lineColor: Colors.green,
+          //     pointsMode: PointsMode.all,
+          //     pointColor: Colors.red,
+          //     pointSize: 4.0,
+          //   ),
         ],
       ),
     );

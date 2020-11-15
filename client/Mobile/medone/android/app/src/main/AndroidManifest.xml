@@ -7,6 +7,14 @@
 	FlutterApplication and put your custom class here.
 	-->
 	<uses-permission android:name="android.permission.INTERNET" />
+	<!-- things for alarm management -->
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+	<uses-permission android:name="android.permission.VIBRATE" />
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
+	<!-- <uses-permission android:name="android.permission.WAKE_LOCK" /> -->
+	<!-- <uses-permission android:name="android.permission.SET_ALARM" /> -->
+	<!-- <uses-permission android:name="android.permission.VIBRATE" /> -->
+	<!-- things for alarm management -->
 	<application android:name="io.flutter.app.FlutterApplication" android:label="medone" android:icon="@mipmap/ic_launcher">
 		<activity android:name=".MainActivity" android:launchMode="singleTop" android:theme="@style/LaunchTheme" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode" android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize">
 			<!--
@@ -34,5 +42,14 @@
 		This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
 		-->
 		<meta-data android:name="flutterEmbedding" android:value="2" />
+		<!-- things for alarm management -->
+		<receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
+			<intent-filter>
+				<action android:name="android.intent.action.BOOT_COMPLETED" />
+				<action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+			</intent-filter>
+		</receiver>
+		<receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
+		<!-- things for alarm management -->
 	</application>
 </manifest>

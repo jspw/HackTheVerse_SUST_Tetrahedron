@@ -65,7 +65,7 @@ class LoginState extends State {
   Future<Map<String, dynamic>> loginRequest(
       String username, String password) async {
     final http.Response response = await http.post(
-      apiUrl + 'admin/login',
+      apiUrl + '/admin/login',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -87,12 +87,11 @@ class LoginState extends State {
     print(info);
     if (info["status"] == "success") {
       var id = info["data"]["user"]["_id"];
-      String token = info["token"];
+      String token = info["jwt"]["token"];
+      print("Login Page : " + token);
       storeTokenLocally(token);
-      if (info["data"]["user"]["role"] == "doctor") {
-        Navigator.pushNamed(context, DoctorHome.route,
-            arguments: {"UserInfo": info["data"]["user"], "token": token});
-      } else if (info["data"]["user"]["role"] == "nurse") {
+      if (info["data"]["user"]["role"] == "nurse" ||
+          info["data"]["user"]["role"] == "doctor") {
         Navigator.pushNamed(context, HealthWorkerHome.route,
             arguments: {"UserInfo": info["data"]["user"], "token": token});
       }
@@ -289,38 +288,38 @@ class LoginState extends State {
               ),
             ),
           ),
-          Center(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  "or ",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w500),
-                ),
-                GestureDetector(
-                  child: Text(
-                    " Signup ",
-                    style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  onTap: () => debugPrint("Signup"),
-                ),
-                Text(
-                  "as Patient",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w500),
-                ),
-              ],
-            ),
-          ),
+          // Center(
+          //   child: Row(
+          //     crossAxisAlignment: CrossAxisAlignment.center,
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: <Widget>[
+          //       Text(
+          //         "or ",
+          //         style: TextStyle(
+          //             color: Colors.black,
+          //             fontSize: 20.0,
+          //             fontWeight: FontWeight.w500),
+          //       ),
+          //       GestureDetector(
+          //         child: Text(
+          //           " Signup ",
+          //           style: TextStyle(
+          //               color: Colors.blue,
+          //               fontSize: 20.0,
+          //               fontWeight: FontWeight.w500),
+          //         ),
+          //         onTap: () => debugPrint("Signup"),
+          //       ),
+          //       Text(
+          //         "as Patient",
+          //         style: TextStyle(
+          //             color: Colors.black,
+          //             fontSize: 20.0,
+          //             fontWeight: FontWeight.w500),
+          //       ),
+          //     ],
+          //   ),
+          // ),
           SizedBox(
             height: 20.0,
           ),

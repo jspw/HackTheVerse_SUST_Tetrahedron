@@ -14,10 +14,11 @@ class DoctorHome extends StatefulWidget {
 class DoctorHomeState extends State {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  Widget featureOptions(
-      BuildContext contex, String title, String route, String imgUrl) {
+  Widget featureOptions(BuildContext contex, String title, String route,
+      String imgUrl, String token) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(contex, route),
+      onTap: () =>
+          Navigator.pushNamed(contex, route, arguments: {"token": token}),
       child: Card(
         color: Colors.lightBlue[800],
         child: Column(
@@ -104,14 +105,14 @@ class DoctorHomeState extends State {
         child: GridView.count(
           childAspectRatio: 1.2,
           children: <Widget>[
-            featureOptions(context, "My Tasks", TaskWorkers.route,
-                "assets/images/medical-record.png"),
-            featureOptions(context, "Patient List", PatientsList.route,
-                "assets/images/hospitalisation.png"),
-            featureOptions(context, "Doctors", DoctorsList.route,
-                "assets/images/doctor.png"),
-            featureOptions(
-                context, "Chat", "/all-doctors-list", "assets/images/chat.png"),
+            // featureOptions(context, "Patient List", PatientsList.route,
+            //     "assets/images/hospitalisation.png", token),
+            // featureOptions(context, "All Nurses", NursesList.route,
+            //     "assets/images/medical-record.png", token),
+            // featureOptions(context, "Doctors", DoctorsList.route,
+            //     "assets/images/doctor.png", token),
+            // featureOptions(context, "Chat", "/all-doctors-list",
+            //     "assets/images/chat.png", token),
           ],
           crossAxisCount: 2,
           shrinkWrap: true,

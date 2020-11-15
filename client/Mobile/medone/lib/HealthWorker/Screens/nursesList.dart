@@ -3,20 +3,20 @@ import 'package:medone/HealthWorker/Screens/Socket/Chat/chatPage.dart';
 import '../../utils/customLib.dart';
 import 'package:http/http.dart' as http;
 
-class DoctorsList extends StatelessWidget {
-  static const route = '/doctors-list';
+class NursesList extends StatelessWidget {
+  static const route = '/nurses-list';
 
   String apiUrl = ApiUrl.url;
 
   Future<List<dynamic>> _getPatientList(String token) async {
     print("Token : ");
     print(token);
-    http.Response response = await http.get(apiUrl + '/users/doctors',
+    http.Response response = await http.get(apiUrl + '/users/nurses',
         headers: {"authorization": "Bearer $token"});
     var data = jsonDecode(response.body);
     print(data);
     if (data["status"] == "success") {
-      return data["data"]["doctors"];
+      return data["data"]["nurses"];
     }
   }
 
@@ -30,7 +30,7 @@ class DoctorsList extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("All Doctors"),
+        title: Text("All Nurses"),
       ),
       body: FutureBuilder(
           future: _getPatientList(token),
@@ -128,10 +128,10 @@ class DoctorsList extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: GestureDetector(
                             onTap: () => Navigator.pushNamed(
-                                context, ChatPage.route, 
-                            //     arguments: {
-                            //   "patient_id": snapshot.data[index]["_id"]
-                            // }
+                              context, ChatPage.route,
+                              //     arguments: {
+                              //   "nurse_id": snapshot.data[index]["_id"]
+                              // }
                             ),
                             child: Container(
                               padding: const EdgeInsets.all(5),

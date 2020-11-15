@@ -1,3 +1,5 @@
+import 'package:medone/HealthWorker/Screens/Socket/Chat/chatPage.dart';
+
 import './customLib.dart';
 
 class Routes {
@@ -32,9 +34,13 @@ class Routes {
       HealthWorkerHome.route: (context) => HealthWorkerHome(),
       NotificationsToNurse.route: (contex) => NotificationsToNurse(),
       DoctorsList.route: (contex) => DoctorsList(),
-      TaskWorkers.route: (context) => TaskWorkers(),
+      NursesList.route: (context) => NursesList(),
       PatientsList.route: (contex) => PatientsList(),
-      PatientProfile.route: (contex) => PatientProfile(),
+    //   PatientProfile.route: (contex) => PatientProfile(
+    //     // argument: ModalRoute.of(context).settings.arguments),
+
+      ChatPage.route : (contex) => ChatPage(),
+
     };
   }
 
