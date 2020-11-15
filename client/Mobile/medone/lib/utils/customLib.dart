@@ -4,13 +4,6 @@ export 'package:flutter/material.dart';
 
 export '../Auth/Screens/login.dart';
 
-//Doctors
-// export '../Doctor/Screens/patient.dart';
-// export '../Doctor/Screens/allApointmentsDoctor.dart';
-// export '../Doctor/Screens/dashboardDoctor.dart';
-// export '../Doctor/Screens/doctorHome.dart';
-// export '../Doctor/Widgets/customDrawer.dart';
-
 //Health Worker
 
 export '../UI/Screens/HealthWorkerHome.dart';
