@@ -49,7 +49,7 @@ export class WardMonitorService {
   getPatient(id: string) {
     console.log('hit');
     
-    return this.http.get<PatientData>(`${this.baseURL}/patients/${id}`)
+    return this.http.get(`${this.baseURL}/patients/${id}`)
   }
 
   admitPatient(patientData: PatientAdmitData) {

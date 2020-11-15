@@ -8,11 +8,11 @@ import { WardMonitorService } from './ward-monitor.service';
   providedIn: 'root'
 })
 
-export class PatientLoadResolverService implements Resolve<PatientData> {
+export class PatientLoadResolverService implements Resolve<any> {
 
   constructor(private wardMonitorService: WardMonitorService) { }
 
-  resolve(route: ActivatedRouteSnapshot): Observable<PatientData> | Promise<PatientData> | PatientData {
+  resolve(route: ActivatedRouteSnapshot): Observable<any> | Promise<any> | any {
     return this.wardMonitorService.getPatient(route.params['id']);
   }
 }
