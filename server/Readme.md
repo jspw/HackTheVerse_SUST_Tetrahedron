@@ -30,6 +30,42 @@ Then you would have to install redis on your machine and run redis server on `lo
 
 Then run `npm i` to install the required packages. Then run `npm run dev` to start the development server (Nodemon is required). Or run `npm start` to start the production server.
 
+## Socket Documentation
+
+### Connect
+
+Connect to the socket using this function
+
+```js
+const socket = io('server_url', {
+  extraHeaders: {
+    authorization: 'Bearer Token',
+  },
+});
+```
+
+### Messages
+
+The socket will send e message named `emergency` on emergency situations. Add a endpoint like this:
+
+```js
+socket.on('emergency', data => {
+  // show notification with data
+});
+```
+
+Structure of return data:
+
+```json
+{
+  "name": "Name of the sensor",
+  "value": "Read of the sensor",
+  "patient": "PatientModel",
+  "type": "fall/rise",
+  "message": "Readable message for emergency"
+}
+```
+
 ## API Documentation
 
 > `*` means it is required

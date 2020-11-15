@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const UserModel = require('../models/UserModel');
 
 const socketProtect = async (socket, next) => {
-  console.log(socket.handshake);
+  console.log('Hit');
   try {
     // Get the cookie
     let token;
@@ -23,16 +23,17 @@ const socketProtect = async (socket, next) => {
 
     // Check if the user available
     const user = await UserModel.findById(decoded.id);
-    if (!user) {
-      return next(
-        new AppError('User belongs to this token is not available', 401),
-      );
-    }
+    if (!user) throw 'No user';
 
     // Check if the user changed password after the password is changed
-    if (user.changedPasswordAfter(decoded.iat)) {
-      return next(new AppError('User recently changed password', 401));
-    }
+    if (user.changedPasswordAfter(decoded.iat)) throw 'Password changed';
+
+    if (
+      user.role != 'ward-monitor' &&
+      user.role != 'nurse' &&
+      user.role != 'doctor'
+    )
+      throw 'No permission';
 
     // Grant access
     socket.user = user;
