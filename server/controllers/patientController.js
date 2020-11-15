@@ -1,21 +1,20 @@
 'use strict';
 
 const PatientModel = require('../models/PatientModel');
-const WardModel = require('../models/WardModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const redis = require('redis');
 const { promisify } = require('util');
 const sensors = require('../dataGenerator/sensors');
-const { resolve } = require('path');
-const { rejects } = require('assert');
 
 const client = redis.createClient();
 const lrangeAsync = promisify(client.lrange).bind(client);
 
 const getPatients = catchAsync(async (req, res, next) => {
   const { hospital, ward } = req.user;
-  const patients = await PatientModel.find({ hospital, ward }).lean();
+  const patients = await PatientModel.find({ hospital, ward })
+    .populate('ward hospital')
+    .lean();
 
   const patientWithStatPromises = patients.map(async patient => {
     const sensorData = sensors.map(async ({ name }) => {
@@ -72,7 +71,7 @@ const getSinglePatient = catchAsync(async (req, res, next) => {
     _id: req.params.id,
     hospital,
     ward,
-  });
+  }).populate('ward hospital');
   if (!patient)
     return next(
       new AppError('The patient is not found in your hospital.', 404),
@@ -91,10 +90,5 @@ const getSinglePatient = catchAsync(async (req, res, next) => {
     }),
   );
 });
-
-const collectSingleStat = patients =>
-  new Promise((resolve, reject) => {
-    const len = patients.length;
-  });
 
 module.exports = { getPatients, createPatient, getSinglePatient };
