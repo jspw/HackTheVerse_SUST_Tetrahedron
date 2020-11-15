@@ -1,4 +1,4 @@
-import 'package:medone/HealthWorker/Screens/Socket/Chat/chatPage.dart';
+import 'package:medone/UI/Screens/Socket/Chat/chatPage.dart';
 
 import '../../utils/customLib.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -54,12 +54,6 @@ class HealthWorkerHomeState extends State {
       Map<String, dynamic> data = json.decode(jsonData);
       print("Data From socket");
       print(data);
-      // // this.setState(() => messages.add(data['message']));
-      // scrollController.animateTo(
-      //   scrollController.position.maxScrollExtent,
-      //   duration: Duration(milliseconds: 600),
-      //   curve: Curves.ease,
-      // );
     });
 
     socketIO.subscribe("socket_info", _onSocketInfo);
@@ -78,82 +72,6 @@ class HealthWorkerHomeState extends State {
     print("Socket status: " + data);
   }
 
-  // void initializing() async {
-  //   androidInitializationSettings = AndroidInitializationSettings('app_icon');
-
-  //   iosInitializationSettings = IOSInitializationSettings(
-  //       onDidReceiveLocalNotification: onDidReceiveLocalNotification);
-
-  //   initializationSettings = InitializationSettings(
-  //       androidInitializationSettings, iosInitializationSettings);
-
-  //   await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-  //       onSelectNotification: onSelectNotification);
-  // }
-
-  // void _showNotifications() async {
-  //   await notification();
-  // }
-
-  // void _showNotificationsAfterSecond(int time) async {
-  //   print("Time : $time");
-  //   await notificationAfterSec(time.abs());
-  // }
-
-  // Future<void> notification() async {
-  //   AndroidNotificationDetails androidNotificationDetails =
-  //       AndroidNotificationDetails(
-  //           'Channel ID', 'Channel title', 'channel body',
-  //           priority: Priority.High,
-  //           importance: Importance.Max,
-  //           ticker: 'test');
-
-  //   IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails();
-
-  //   NotificationDetails notificationDetails =
-  //       NotificationDetails(androidNotificationDetails, iosNotificationDetails);
-  //   await flutterLocalNotificationsPlugin.show(
-  //       0, 'Hello there', 'You have Upcoming Contests', notificationDetails);
-  // }
-
-  // Future<void> notificationAfterSec(int time) async {
-  //   var timeDelayed = DateTime.now().add(Duration(seconds: time));
-  //   AndroidNotificationDetails androidNotificationDetails =
-  //       AndroidNotificationDetails(
-  //           'second channel ID', 'second Channel title', 'second channel body',
-  //           priority: Priority.High,
-  //           importance: Importance.Max,
-  //           ticker: 'test');
-
-  //   IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails();
-
-  //   NotificationDetails notificationDetails =
-  //       NotificationDetails(androidNotificationDetails, iosNotificationDetails);
-  //   await flutterLocalNotificationsPlugin.schedule(1, 'Hello Coder!',
-  //       'Its Contest Time', timeDelayed, notificationDetails);
-  // }
-
-  // Future onSelectNotification(String payLoad) async {
-  //   if (payLoad != null) {
-  //     print("payLoad : $payLoad");
-  //   }
-  // }
-
-  // Future onDidReceiveLocalNotification(
-  //     int id, String title, String body, String payload) async {
-  //   return CupertinoAlertDialog(
-  //     title: Text(title),
-  //     content: Text(body),
-  //     actions: <Widget>[
-  //       CupertinoDialogAction(
-  //           isDefaultAction: true,
-  //           onPressed: () {
-  //             print("");
-  //           },
-  //           child: Text("Okay")),
-  //     ],
-  //   );
-  // }
 
   Widget featureOptions(BuildContext contex, String title, String route,
       String imgUrl, String token) {
