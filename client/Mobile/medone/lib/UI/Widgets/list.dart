@@ -1,4 +1,4 @@
-import '../../utils/customLib.dart';
+import '../../Utils/Others/customLib.dart';
 
 class DoctorsList extends StatelessWidget {
   static const route = '/doctors-list';

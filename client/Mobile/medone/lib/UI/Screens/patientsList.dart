@@ -1,17 +1,13 @@
-import 'dart:io';
-
-import '../../utils/customLib.dart';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:medone/UI/Widgets/loading.dart';
+import '../../Utils/Others/customLib.dart';
 
 class PatientsList extends StatelessWidget {
   static const route = '/patients-list';
 
-  String apiUrl = ApiUrl.url;
+  final String apiUrl = ApiUrl.url;
 
   Future<List<dynamic>> _getPatientList(String token) async {
-    print("Token : ");
-    print(token);
     final http.Response response = await http
         .get(apiUrl + '/patients', headers: {"authorization": "Bearer $token"});
     var data = jsonDecode(response.body);
@@ -43,9 +39,11 @@ class PatientsList extends StatelessWidget {
 
             if (snapshot.data == null)
               return Center(
-                  child: CircularProgressIndicator(
-                backgroundColor: Colors.red,
-              ));
+                  child:loading()
+                //    CircularProgressIndicator(
+                // backgroundColor: Colors.red,)
+                
+                );
 
             return Padding(
               padding: const EdgeInsets.all(10.0),
@@ -134,17 +132,9 @@ class PatientsList extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                       builder: (_) => PatientProfile(
-                                          token, snapshot.data[index]["_id"]),
+                                          token,snapshot.data[index]),
                                     ),
                                   ),
-
-                              // onTap: () => Navigator.pushNamed(
-                              //         context, PatientProfile.route,
-                              //         arguments: {
-                              //           "token": token,
-                              //           "patient_id": snapshot.data[index]
-                              //               ["_id"]
-                              //         }),
                               child: Container(
                                   padding: const EdgeInsets.all(5),
                                   color: Colors.green,

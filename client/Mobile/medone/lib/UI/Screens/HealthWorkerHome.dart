@@ -1,10 +1,6 @@
-import 'package:medone/UI/Screens/Socket/Chat/chatPage.dart';
-
-import '../../utils/customLib.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_socket_io/flutter_socket_io.dart';
-import 'package:flutter_socket_io/socket_io_manager.dart';
+import '../../Utils/Others/customLib.dart';
+
 
 class HealthWorkerHome extends StatefulWidget {
   static const route = "/HealthWorker-home";
@@ -24,7 +20,7 @@ class HealthWorkerHomeState extends State {
 
   //socket
 
-  SocketIO socketIO;
+  // SocketIO socketIO;
 
   // lOCAL pUSH NOTIFICATION
 
@@ -42,23 +38,24 @@ class HealthWorkerHomeState extends State {
 
   @override
   void initState() {
-    socketIO = SocketIOManager().createSocketIO(
-      url,
-      '/',
-    );
 
-    socketIO.init();
+    // socketIO = SocketIOManager().createSocketIO(
+    //   url,
+    //   '/',
+    // );
 
-    socketIO.subscribe('receive_message', (jsonData) {
-      //Convert the JSON data received into a Map
-      Map<String, dynamic> data = json.decode(jsonData);
-      print("Data From socket");
-      print(data);
-    });
+    // socketIO.init();
 
-    socketIO.subscribe("socket_info", _onSocketInfo);
+    // socketIO.subscribe('receive_message', (jsonData) {
+    //   //Convert the JSON data received into a Map
+    //   Map<String, dynamic> data = json.decode(jsonData);
+    //   print("Data From socket");
+    //   print(data);
+    // });
 
-    socketIO.connect();
+    // socketIO.subscribe("socket_info", _onSocketInfo);
+
+    // socketIO.connect();
 
     super.initState();
     // initializing();
@@ -73,42 +70,12 @@ class HealthWorkerHomeState extends State {
   }
 
 
-  Widget featureOptions(BuildContext contex, String title, String route,
-      String imgUrl, String token) {
-    return GestureDetector(
-      onTap: () =>
-          Navigator.pushNamed(contex, route, arguments: {"token": token}),
-      child: Card(
-        color: Colors.lightBlue[800],
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Container(
-              child: Image.asset(imgUrl),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Text(
-                title,
-                style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w900),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final routeArgs =
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
 
-    var UserInfo = routeArgs['UserInfo'];
+    var userInfo = routeArgs['userInfo'];
     String token = routeArgs['token'];
 
     print('Token in Home');
@@ -185,7 +152,7 @@ class HealthWorkerHomeState extends State {
           physics: ScrollPhysics(),
         ),
       ),
-      drawer: CustomDrawer(UserInfo["name"], UserInfo["role"], "hash", "http"),
+      drawer: CustomDrawer(userInfo["name"], userInfo["role"], "hash", "http"),
     );
   }
 }

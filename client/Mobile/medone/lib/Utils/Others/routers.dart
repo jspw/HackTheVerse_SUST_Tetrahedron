@@ -1,4 +1,4 @@
-import './customLib.dart';
+import 'customLib.dart';
 
 class Routes {
   static routes() {
@@ -12,6 +12,7 @@ class Routes {
       DoctorsList.route: (contex) => DoctorsList(),
       NursesList.route: (context) => NursesList(),
       PatientsList.route: (contex) => PatientsList(),
+      InitialScreen.route : (contex) => InitialScreen(),
 
       //Util
 
@@ -20,6 +21,6 @@ class Routes {
   }
 
   static initScreen() {
-    return Login.route;
+    return InitialScreen.route;
   }
 }

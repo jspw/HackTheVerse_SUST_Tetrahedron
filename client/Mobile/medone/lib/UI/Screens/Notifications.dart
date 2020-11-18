@@ -1,6 +1,4 @@
-import 'dart:ui';
-
-import 'package:medone/utils/customLib.dart';
+import 'package:medone/Utils/Others/customLib.dart';
 
 class NotificationsToNurse extends StatelessWidget {
   static const route = "/nurse-notifications";
@@ -20,15 +18,6 @@ class NotificationsToNurse extends StatelessWidget {
       ),
       body: ListView(
         children: [
-          // Container(
-          //   padding: const EdgeInsets.all(20),
-          //   color: Colors.red,
-          //   alignment: Alignment.center,
-          //   child: Text(
-          //     "Emergency Patient Check",
-          //     style: TextStyle(color: Colors.white, fontSize: 22),
-          //   ),
-          // ),
           Container(
             child: Card(
               child: DataTable(

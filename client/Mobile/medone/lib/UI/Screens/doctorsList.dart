@@ -1,7 +1,6 @@
-
-
-import '../../utils/customLib.dart';
 import 'package:http/http.dart' as http;
+import '../../Utils/Others/customLib.dart';
+
 
 class DoctorsList extends StatelessWidget {
   static const route = '/doctors-list';
@@ -40,9 +39,11 @@ class DoctorsList extends StatelessWidget {
 
             if (snapshot.data == null)
               return Center(
-                  child: CircularProgressIndicator(
-                backgroundColor: Colors.red,
-              ));
+                  child: loading()
+              //     CircularProgressIndicator(
+              //   backgroundColor: Colors.red,
+              // )
+              );
 
             return Padding(
               padding: const EdgeInsets.all(10.0),

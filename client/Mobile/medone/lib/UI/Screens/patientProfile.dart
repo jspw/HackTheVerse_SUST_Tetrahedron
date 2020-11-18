@@ -1,68 +1,131 @@
-import 'package:flutter_sparkline/flutter_sparkline.dart';
-
-import '../../utils/customLib.dart';
 import 'package:http/http.dart' as http;
+import '../../Utils/Others/customLib.dart';
 
 class PatientProfile extends StatefulWidget {
   static const route = "/profile-patient";
 
-  String patientId, token;
-
-  PatientProfile(this.patientId, this.token);
+  String token;
+  Map<String, dynamic> patientInfoPre;
+  PatientProfile(this.token, this.patientInfoPre);
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
-    // throw UnimplementedError();
-    return PatientProfilState(patientId, token);
+    return PatientProfilState(token, patientInfoPre);
   }
 }
 
 class PatientProfilState extends State {
-  bool showPatientInfo = false;
-  bool showPatientHealthInfo = false;
+  bool showPatientInfo = true;
+  bool showPatientHealthInfo = true;
 
-  String patientId, token;
+  final String token;
+  Map<String, dynamic> patientInfoPre;
 
-  PatientProfilState(this.patientId, this.token);
+  PatientProfilState(this.token, this.patientInfoPre);
 
   String apiUrl = ApiUrl.url;
 
   Map<String, dynamic> patientInfo;
 
-  List<double> temperatureValues;
+  List<double> temperatureValues = List<double>();
+  List<double> pulseValues = List<double>();
+  List<double> systolicValues = List<double>();
+  List<double> diastolicValues = List<double>();
+  List<double> oxyzenValues = List<double>();
 
   Future<Map<String, dynamic>> _getPatienInfo(
-      String token, String patient_id) async {
-    print("Token : ");
-    print(token);
-    http.Response response = await http.get(apiUrl + '/patients/' + patient_id,
+      String token, String patientID) async {
+    http.Response response = await http.get(apiUrl + '/patients/' + patientID,
         headers: {"authorization": "Bearer $token"});
     var data = jsonDecode(response.body);
 
-    print("data : ");
     print(data);
 
     if (data["status"] == "success") {
       return data["data"];
     }
+    return null;
   }
 
   getData() async {
-    var data = await _getPatienInfo(patientId, token);
+    var data = await _getPatienInfo(token, patientInfoPre["_id"]);
     setState(() {
       patientInfo = data;
     });
-    // var p = await patientInfo["sensorData"][1]["value"];
 
-    // setState(() {
-    //   for (int i=0;i<p.length;i++){
-    //     // Double x =
-    //     temperatureValues[i] = double.parse(p[i]);
-    //   }
-    // });
+    List<double> temperatureValuesDemo = List<double>();
+    List<double> pulseValuesDemo = List<double>();
+    List<double> systolicValuesDemo = List<double>();
+    List<double> diastolicValuesDemo = List<double>();
+    List<double> oxyzenValuesDemo = List<double>();
 
-    // print(temperatureValues.runtimeType);
+    //temperature
+
+    var temperature = await patientInfo["sensorData"][0]["value"];
+    for (int i = 0; i < temperature.length; i++) {
+      temperature[i] = temperature[i] + ".00000";
+      temperature[i] = temperature[i].substring(0, 5);
+      temperatureValuesDemo.add(double.parse(temperature[i]));
+    }
+
+    //pulse
+    var pulse = await patientInfo["sensorData"][1]["value"];
+    for (int i = 0; i < pulse.length; i++) {
+      pulse[i] = pulse[i] + ".00000";
+      pulse[i] = pulse[i].substring(0, 5);
+      pulseValuesDemo.add(double.parse(pulse[i]));
+    }
+
+    //systolic
+    var systolic = await patientInfo["sensorData"][2]["value"];
+    for (int i = 0; i < systolic.length; i++) {
+      systolic[i] = systolic[i] + ".00000";
+      systolic[i] = systolic[i].substring(0, 5);
+      systolicValuesDemo.add(double.parse(systolic[i]));
+    }
+
+    //diastolic
+    var diastolic = await patientInfo["sensorData"][3]["value"];
+    for (int i = 0; i < diastolic.length; i++) {
+      diastolic[i] = diastolic[i] + ".00000";
+      diastolic[i] = diastolic[i].substring(0, 5);
+      diastolicValuesDemo.add(double.parse(diastolic[i]));
+    }
+
+    //oxyzen
+
+    var oxyzen = await patientInfo["sensorData"][4]["value"];
+    for (int i = 0; i < oxyzen.length; i++) {
+      oxyzen[i] = oxyzen[i] + ".00000";
+      oxyzen[i] = oxyzen[i].substring(0, 5);
+      print(oxyzen[i]);
+      oxyzenValuesDemo.add(double.parse(oxyzen[i]));
+    }
+
+    setState(() {
+      //load data in real fields
+
+      temperatureValues = [...temperatureValuesDemo];
+      oxyzenValues = [...oxyzenValuesDemo];
+      diastolicValues = [...diastolicValuesDemo];
+      systolicValues = [...systolicValuesDemo];
+      pulseValues = [...pulseValuesDemo];
+
+
+      //clear olds  values
+
+      temperatureValuesDemo.clear();
+      pulseValuesDemo.clear();
+      systolicValuesDemo.clear();
+      diastolicValuesDemo.clear();
+      oxyzenValuesDemo.clear();
+    });
+
+    // print(temperatureValues);
+    // print(oxyzenValues);
+    // print(diastolicValues);
+    // print(systolicValues);
+    // print(pulseValues);
   }
 
   @override
@@ -71,96 +134,20 @@ class PatientProfilState extends State {
     super.initState();
   }
 
-  Widget customBox(String img, String title, String amount, String comment) {
-    return Card(
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Image.asset(img),
-            Text(title),
-            Text(amount),
-            // Expanded(
-            //     child: Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: Text(comment),
-            // )),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget healthInfoCards(String title, bool up) {
-    return Card(
-      child: Container(
-        height: 60,
-        padding: const EdgeInsets.all(8),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              title,
-              style: TextStyle(
-                  fontSize: 26.0,
-                  fontWeight: FontWeight.bold,
-                  fontStyle: FontStyle.normal),
-            ),
-            Icon(
-              up ? Icons.arrow_drop_up : Icons.arrow_drop_down,
-              size: 50,
-              color: Colors.blue,
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget PatientinfoTitle(String title) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Text(
-        title,
-        style: TextStyle(
-          fontSize: 20.0,
-          fontWeight: FontWeight.w500,
-          color: Colors.black,
-        ),
-      ),
-    );
-  }
-
-  Widget clone() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Text(" : "),
-    );
-  }
-
-  Widget PatientinfoTitleValue(String value) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Text(
-        value,
-        style: TextStyle(
-          fontSize: 18.0,
-          color: Colors.grey,
-          fontWeight: FontWeight.w500,
-        ),
-        overflow: TextOverflow.ellipsis,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Patient | Mh Shifat"),
+        title: Text("Patient | " + patientInfoPre["name"]),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(
+                Icons.refresh,
+                size: 30,
+                color: Theme.of(context).accentColor,
+              ),
+              onPressed: () => getData())
+        ],
       ),
       body: ListView(
         children: <Widget>[
@@ -178,8 +165,14 @@ class PatientProfilState extends State {
           if (showPatientInfo)
             if (patientInfo == null)
               Container(
+                  height: 300.0,
+                  width: 300.0,
+                  alignment: Alignment.center,
                   padding: const EdgeInsets.all(50),
-                  child: Text("Loading Data......."))
+                  child: Image.asset(
+                    "assets/images/loading.gif",
+                    // fit: BoxFit.fill,
+                  ))
             else
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -200,13 +193,13 @@ class PatientProfilState extends State {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          PatientinfoTitle("Name"),
-                          PatientinfoTitle("age"),
-                          PatientinfoTitle("Blood Group"),
-                          PatientinfoTitle("Disease"),
-                          PatientinfoTitle("Ward No"),
-                          PatientinfoTitle("Bed No"),
-                          PatientinfoTitle("Assigned Doctor"),
+                          patientinfoTitle("Name"),
+                          patientinfoTitle("age"),
+                          patientinfoTitle("Blood Group"),
+                          patientinfoTitle("Disease"),
+                          patientinfoTitle("Ward No"),
+                          patientinfoTitle("Bed No"),
+                          patientinfoTitle("Assigned Doctor"),
                         ],
                       ),
                       Column(
@@ -223,15 +216,13 @@ class PatientProfilState extends State {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          PatientinfoTitleValue(patientInfo["patient"]["name"]),
-                          PatientinfoTitleValue(
-                              patientInfo["patient"]["age"].toString()),
-                          PatientinfoTitleValue("O (-) "),
-                          PatientinfoTitleValue(
-                              patientInfo["patient"]["disease"]),
-                          PatientinfoTitleValue(
-                              patientInfo["patient"]["ward"]["name"]),
-                          PatientinfoTitleValue(patientInfo["patient"]["bed"]),
+                          patientinfoTitleValue(patientInfoPre["name"]),
+                          patientinfoTitleValue(
+                              patientInfoPre["age"].toString()),
+                          patientinfoTitleValue("O (-) "),
+                          patientinfoTitleValue(patientInfoPre["disease"]),
+                          patientinfoTitleValue(patientInfoPre["ward"]["name"]),
+                          patientinfoTitleValue(patientInfoPre["bed"]),
                           GestureDetector(
                             onTap: () =>
                                 Navigator.pushNamed(context, "/doctor-profile"),
@@ -264,66 +255,86 @@ class PatientProfilState extends State {
           if (showPatientHealthInfo)
             if (patientInfo == null)
               Container(
+                  height: 300.0,
+                  width: 300.0,
+                  alignment: Alignment.center,
                   padding: const EdgeInsets.all(50),
-                  child: Text("Loading Data......."))
+                  child: Image.asset(
+                    "assets/images/loading.gif",
+                    // fit: BoxFit.cover,
+                  ))
             else
-              GridView.count(
-                physics: ScrollPhysics(),
-                shrinkWrap: true,
-                primary: false,
+              ListView(
                 padding: const EdgeInsets.all(20),
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                crossAxisCount: 2,
+                shrinkWrap: true,
+                physics: ScrollPhysics(),
                 children: <Widget>[
-                  customBox(
-                      "assets/images/thermometer.png",
-                      "Temperature",
-                      // patientInfo["sensorData"][0]["value"][0].toString(),
-                      patientInfo["sensorData"][0]["value"][0],
-                      "07% Less Then Last Month"),
-                  customBox(
-                      "assets/images/cardiogram.png",
-                      "Pulse",
-                      // patientInfo["sensorData"][0]["value"][0].toString(),
-                      patientInfo["sensorData"][1]["value"][0],
-                      "07% Less Then Last Month"),
-                  customBox(
-                      "assets/images/heart.png",
-                      "Systolic",
-                      patientInfo["sensorData"][2]["value"][0],
-                      "vlo nah bachbina beshidin"),
-                  customBox(
-                      "assets/images/speedometer.png",
-                      "Diastolic",
-                      patientInfo["sensorData"][3]["value"][0],
-                      "22% Less Then Last Month"),
-                  customBox(
-                      "assets/images/glucose-meter.png",
-                      "Oxygen",
-                      patientInfo["sensorData"][4]["value"][0],
-                      "12% Higher Then Last Month"),
-                  // customBox(
-                  //     "assets/images/oxygen.png",
-                  //     "Oxygen",
-                  //     patientInfo["sensorData"][3]["value"][0],
-                  // "07% Less Then Last Month"),
-                  // customBox("assets/images/hearts.png", "Blood Pressure",
-                  //     "110/70", "vlo nah bachbina beshidin"),
-                  // customBox("assets/images/blood.png", "Blood Count",
-                  //     "9,456/mL", "22% Less Then Last Month"),
-                  // customBox("assets/images/glucose-meter.png",
-                  //     "Glucose Level", "80-85", "12% Higher Then Last Month"),
+                  GridView.count(
+                    physics: ScrollPhysics(),
+                    // padding: const EdgeInsets.all(20),
+                    shrinkWrap: true,
+                    primary: true,
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 10,
+                    crossAxisCount: 2,
+                    childAspectRatio: 1.3,
+                    children: <Widget>[
+                      sensorDataShowCard(
+                          "assets/images/thermometer.png",
+                          "Temperature",
+                          // patientInfo["sensorData"][0]["value"][0].toString(),
+                          patientInfo["sensorData"][0]["value"][0]
+                              .substring(0, 4),
+                          "07% Less Then Last Month"),
+                      sensorDataShowCard(
+                          "assets/images/cardiogram.png",
+                          "Pulse",
+                          // patientInfo["sensorData"][0]["value"][0].toString(),
+                          patientInfo["sensorData"][1]["value"][0]
+                              .substring(0, 4),
+                          "07% Less Then Last Month"),
+                      sensorDataShowCard(
+                          "assets/images/heart.png",
+                          "Systolic",
+                          patientInfo["sensorData"][2]["value"][0]
+                              .substring(0, 4),
+                          "vlo nah bachbina beshidin"),
+                      sensorDataShowCard(
+                          "assets/images/speedometer.png",
+                          "Diastolic",
+                          patientInfo["sensorData"][3]["value"][0]
+                              .substring(0, 4),
+                          "22% Less Then Last Month"),
+                      sensorDataShowCard(
+                          "assets/images/glucose-meter.png",
+                          "Oxygen",
+                          patientInfo["sensorData"][4]["value"][0]
+                              .substring(0, 4),
+                          "12% Higher Then Last Month"),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  if (oxyzenValues.length > 0 &&
+                      temperatureValues.length > 0 &&
+                      pulseValues.length > 0 &&
+                      systolicValues.length > 0 &&
+                      diastolicValues.length > 0)
+                    ListView(
+                      shrinkWrap: true,
+                      physics: ScrollPhysics(),
+                      children: <Widget>[
+                        graphShow("Temperature Changes in Celcius : ",
+                            temperatureValues),
+                        graphShow("Pulse Rate Changes : ", pulseValues),
+                        graphShow("Systolic Chnages: ", systolicValues),
+                        graphShow("Diastolic Chnages: ", diastolicValues),
+                        graphShow("Oxyzen amount Chnages : ", oxyzenValues),
+                      ],
+                    )
                 ],
               ),
-          // if (temperatureValues != null)
-          //   Sparkline(
-          //     data: temperatureValues,
-          //     lineColor: Colors.green,
-          //     pointsMode: PointsMode.all,
-          //     pointColor: Colors.red,
-          //     pointSize: 4.0,
-          //   ),
         ],
       ),
     );

@@ -1,32 +1,17 @@
-import 'dart:async';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import '../../utils/customLib.dart';
-
-// khan@kh.an
-// mypass1234
-// Khan@khaaaa.an
-// mypass12324
-
-//patient
-// mypass12a324
-// as@khaaaaa.an
+import '../../Utils/Others/customLib.dart';
 
 class Login extends StatefulWidget {
   static const route = "/login";
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
-    // throw UnimplementedError();
     return LoginState();
   }
 }
 
 class LoginState extends State {
-  final String apiUrl = ApiUrl.url;
   TextEditingController _usernameController, _passwordController;
-  bool _rembermeValue = false;
+  bool _rembermeValue = true;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -60,48 +45,19 @@ class LoginState extends State {
       backgroundColor: Colors.red,
     );
     _scaffoldKey.currentState.showSnackBar(snackBar);
+    print("Come here");
   }
 
-  Future<Map<String, dynamic>> loginRequest(
-      String username, String password) async {
-    final http.Response response = await http.post(
-      apiUrl + '/admin/login',
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(
-          <String, String>{"username": username, "password": password}),
-    );
-
-    // print(jsonDecode(response.body));
-    return jsonDecode(response.body);
-  }
-
-  checkTokenAlreadySaved(String token) {}
-
-  storeTokenLocally(String token) {}
-
-  Future<void> getData(String username, String password) async {
-    print('Awaiting user ...');
-    var info = await loginRequest(username, password);
-    print(info);
-    if (info["status"] == "success") {
-      var id = info["data"]["user"]["_id"];
-      String token = info["jwt"]["token"];
-      print("Login Page : " + token);
-      storeTokenLocally(token);
-      if (info["data"]["user"]["role"] == "nurse" ||
-          info["data"]["user"]["role"] == "doctor") {
-        Navigator.pushNamed(context, HealthWorkerHome.route,
-            arguments: {"UserInfo": info["data"]["user"], "token": token});
-      }
-    } else {
-      invalidLoginMessage(context);
-      _usernameController.clear();
-      _passwordController.clear();
-    }
-
-    print("Shit");
+  void navigateLoadingScreen(BuildContext context) async {
+    // Navigator.push returns a Future that completes after calling
+    // Navigator.pop on the Selection Screen.
+    if (await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => LoadingPage(
+                  _usernameController.text,
+                  _passwordController.text,
+                )))) invalidLoginMessage(context);
   }
 
   @override
@@ -146,10 +102,9 @@ class LoginState extends State {
                     child: TextFormField(
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'Please enter an username address';
+                          return 'Please enter your Username';
                         }
-                        // else if (this.invalidEmainOrPass)
-                        //   return "username or Password invalid!";
+
                         return null;
                       },
                       controller: _usernameController,
@@ -181,10 +136,8 @@ class LoginState extends State {
                     child: TextFormField(
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'Please enter an your password';
+                          return 'Please enter  your password';
                         }
-                        //  else if (this.invalidEmainOrPass)
-                        //   return "username or Password invalid!";
                         return null;
                       },
                       obscureText: true,
@@ -253,30 +206,11 @@ class LoginState extends State {
               color: Colors.blue,
               child: FlatButton(
                 onPressed: () {
-                  // patient
-                  //     ? Navigator.pushNamed(context, PatientHome.route)
-                  //     : doctor
-                  //         ? Navigator.pushNamed(context, "doctor-route")
-                  //         : Navigator.pushNamed(context, "pharmacy-route");
-
-                  // print(_usernameController.text);
-                  // Navigator.pushNamed(context, "doctor-route");
-                  // if (_usernameController.text == "" ||
-                  //     _passwordController.text == "") {
-                  //   final snackBar = SnackBar(
-                  //     content: Text(
-                  //       'Invalid username or password',
-                  //       style: TextStyle(
-                  //         color: Colors.white,
-                  //       ),
-                  //     ),
-                  //     backgroundColor: Colors.red,
-                  //   );
-                  //   Scaffold.of(context).showSnackBar(snackBar);
-                  //   print("Empty");
-                  // } else
                   if (_formKey.currentState.validate())
-                    getData(_usernameController.text, _passwordController.text);
+                    navigateLoadingScreen(context);
+
+                  // if (_formKey.currentState.validate())
+                  //   getData(_usernameController.text, _passwordController.text);
                 },
                 child: Text(
                   "Login",
@@ -288,38 +222,6 @@ class LoginState extends State {
               ),
             ),
           ),
-          // Center(
-          //   child: Row(
-          //     crossAxisAlignment: CrossAxisAlignment.center,
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     children: <Widget>[
-          //       Text(
-          //         "or ",
-          //         style: TextStyle(
-          //             color: Colors.black,
-          //             fontSize: 20.0,
-          //             fontWeight: FontWeight.w500),
-          //       ),
-          //       GestureDetector(
-          //         child: Text(
-          //           " Signup ",
-          //           style: TextStyle(
-          //               color: Colors.blue,
-          //               fontSize: 20.0,
-          //               fontWeight: FontWeight.w500),
-          //         ),
-          //         onTap: () => debugPrint("Signup"),
-          //       ),
-          //       Text(
-          //         "as Patient",
-          //         style: TextStyle(
-          //             color: Colors.black,
-          //             fontSize: 20.0,
-          //             fontWeight: FontWeight.w500),
-          //       ),
-          //     ],
-          //   ),
-          // ),
           SizedBox(
             height: 20.0,
           ),

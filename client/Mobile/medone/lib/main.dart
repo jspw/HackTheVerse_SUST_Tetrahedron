@@ -1,8 +1,9 @@
-import './utils/customLib.dart';
+import 'Utils/Others/customLib.dart';
 
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
+    title: "MedOne",
     theme: ThemeData(
       brightness: Brightness.light,
       backgroundColor: Colors.grey,
