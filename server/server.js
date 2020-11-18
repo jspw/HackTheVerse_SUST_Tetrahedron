@@ -24,29 +24,23 @@ mongoose
     connected = true;
   });
 
-// Calling the random data generator
-setInterval(() => {
-  if (connected) generateAndStore('second');
-}, 1000);
-
-setInterval(() => {
-  if (connected) generateAndStore('minute');
-}, 60000);
-
 // Importing the express app
 const app = require('./app');
 const http = require('http').createServer(app);
-const io = require('socket.io')(http);
+const io = require('socket.io')(http, {
+  cors: true,
+  origins: ['*'],
+});
 
 io.use(socketProtect);
 
 io.on('connection', socket => {
-  console.log('a user connected');
-
-  console.log(socket.user);
+  console.log('Connected');
+  socket.join(`${socket.user.ward}`);
+  console.log(socket.user.name + ' connected');
 
   socket.on('disconnect', () => {
-    console.log('Got disconnect!');
+    console.log(socket.user.name + ' disconnected');
   });
 
   socket.on('logout', () => {
@@ -58,6 +52,15 @@ io.on('connection', socket => {
 const server = http.listen(PORT, HOST, () => {
   console.log(`Server started on ${HOST}:${PORT}`);
 });
+
+// Calling the random data generator
+setInterval(() => {
+  if (connected) generateAndStore('second', io);
+}, 1000);
+
+setInterval(() => {
+  if (connected) generateAndStore('minute', io);
+}, 60000);
 
 // Handle Unhandled Rejections
 process.on('unhandledRejection', err => {
